@@ -1,16 +1,30 @@
 <template>
   <div class="home">
     <div class="home-container">
-      <div class="">
-        <h1 class="title">
-          <span class="main">Wootlab</span>
-          <span class="subtitle">Blog - Projects - Tools </span>
-        </h1>
-        <span class="description">A random passionate developper's place</span>
+      <div>
+        <img class="img-logo"
+             src="https://avatars1.githubusercontent.com/u/43185161?s=400&u=0f077352dbc68985059720a9bd2f36f936b847af&v=4">
+      </div>
+      <div class="title-container">
+        <div class="title-principal">
+          <div class="title-principal-first">Wootlab</div>
+          <div class="title-principal-secondary">Blog - Projects - Tools</div>
+        </div>
+        <div class="title-description">A random piece of shit</div>
         <div class="btns-list-container">
-            <router-link to="/news" class="home-btn">Blog</router-link>
-            <router-link to="/doc" class="home-btn">Projects</router-link>
-            <a href="https://twitter.com/zthulj" target="_blank" class="home-btn">Twitter</a>
+          <div class="btns-list-duo first-duo">
+            <div>
+              <router-link to="/news" class="home-btn first first-duo-btn blog-btn">Blog</router-link>
+            </div>
+            <div>
+              <router-link to="/doc" class="home-btn projects-btn">Projects</router-link>
+            </div>
+          </div>
+          <div class="btns-list-duo second-duo">
+            <div><a href="https://twitter.com/zthulj" target="_blank" class="home-btn first-duo">Twitter</a></div>
+            <div><a href="https://www.linkedin.com/in/jeremythulliez/" target="_blank" class="home-btn">LinkedIn</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -31,6 +45,12 @@ export default {
     margin: 4rem 0px 2rem;
   }
 
+  .img-logo {
+    border-radius: 50%;
+    height: 220px;
+    opacity: 0.7;
+  }
+
   .home {
     position: relative;
     width: 100%;
@@ -46,7 +66,7 @@ export default {
   }
 
   .home-btns {
-    margin-top:15px;
+    margin-top: 15px;
     display: flex;
     font-size: 1.1em;
     font-weight: bold;
@@ -54,13 +74,11 @@ export default {
     list-style: none;
   }
 
-  .home-btn{
-    border: 2px solid
-    rgb(255, 255, 255);
+  .home-btn {
+    border: 2px solid rgb(255, 255, 255);
     border-radius: 8px;
     padding: 0.5em 1em;
-    color:
-      rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     transition-duration: 0.15s;
     transition-timing-function: ease-in-out;
     transition-delay: 0s;
@@ -68,30 +86,39 @@ export default {
     margin-left: 1.6em;
   }
 
-  .home-btn a{
-    color:white;
+  .first {
+    margin-left: 0px;
   }
 
-  .home-btn:hover{
-    background-color:
-      rgb(255, 255, 255);
-    color:black !important;
+  .home-btn a {
+    color: white;
   }
 
-  .home-btn:hover a{
-    color:black;
+  .home-btn:hover {
+    background-color: rgb(255, 255, 255);
+    color: black !important;
   }
 
-  .btns-list-container{
-    margin-top:25px;
+  .home-btn:hover a {
+    color: black;
   }
 
-  .main {
+  .btns-list-container {
+    margin-top: 25px;
+    display: flex;
+  }
+
+  .btns-list-duo{
+    display:flex;
+  }
+
+  .title-principal-first {
     font-size: 4.2em;
     font-weight: bold;
+    margin-top: -10px;
   }
 
-  .title {
+  .title-principal {
     font-size: 1.2em;
     position: relative;
     padding-bottom: 1.2em;
@@ -99,19 +126,52 @@ export default {
     color: white;
   }
 
-  .subtitle {
+  .title-principal-secondary {
     font-size: 1.2em;
     position: absolute;
     left: 20px;
     bottom: 0px;
     color: white;
-    font-weight:400;
+    font-weight: 400;
   }
 
-  .description {
-    text-align: center;
+  .title-description {
+    padding-left: 20px;
     opacity: 0.7;
     max-width: 80vw;
     color: white;
+  }
+
+  .title-container {
+    text-align: left;
+  }
+
+  @media (max-width: 1024px) {
+    .title-principal-first {
+      font-size: 3.7em;
+    }
+    .home-container {
+      flex-direction: column;
+      margin: 0;
+    }
+    .home {
+      align-items: flex-start;
+      padding-top: 100px;
+    }
+    .btns-list-container{
+      flex-direction: column;
+      align-items: center;
+      flex-basis: 23%;
+    }
+    .first-duo-btn{
+      margin-left:0px;
+    }
+    .second-duo{
+      margin-top:30px;
+    }
+
+    .home-btn{
+      width:150px;
+    }
   }
 </style>

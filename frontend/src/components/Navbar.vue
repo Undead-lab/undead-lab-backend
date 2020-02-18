@@ -44,6 +44,10 @@ export default {
 </script>
 
 <style scoped type="scss">
+  .navbar{
+    position:fixed;
+    width:100%;
+  }
   .navbar-burger{
     height:4.25em;
   }
