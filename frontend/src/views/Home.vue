@@ -10,7 +10,7 @@
           <div class="title-principal-first">Wootlab</div>
           <div class="title-principal-secondary">Blog - Projects - Tools</div>
         </div>
-        <div class="title-description">A random piece of shit</div>
+        <div class="title-description">A random passionate developer's place</div>
         <div class="btns-list-container">
           <div class="btns-list-duo first-duo">
             <div>
