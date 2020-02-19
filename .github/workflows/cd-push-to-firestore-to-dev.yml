@@ -1,10 +1,10 @@
-name: CI retrieve github article content
+name: CI push article to firestore
 
 on:
   push:
     branches: dev
     paths:
-      - 'data-integration/retrieve-github-article-content/**'
+      - 'data-integration/push-article-to-firestore/**'
 
 jobs:
   deploy-to-google-cloud-function:
@@ -21,12 +21,12 @@ jobs:
           echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
           gcloud auth activate-service-account --key-file=./google-key.json
           gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
-          gcloud beta functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_ARTICLE_FUNCTION_NAME}} \
+          gcloud beta functions deploy ${{secrets.GOOGLE_PUSH_ARTICLE_TO_FIRESTORE_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
-            --source data-integration/retrieve-github-article-content \
+            --source data-integration/push-article-to-firestore \
             --memory 128MB \
             --allow-unauthenticated \
-            --entry-point retrieve_github_content \
+            --entry-point push_to_firestore \
             --ingress-settings internal-only \
             --trigger-http \

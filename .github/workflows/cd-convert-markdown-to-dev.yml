@@ -21,11 +21,12 @@ jobs:
           echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
           gcloud auth activate-service-account --key-file=./google-key.json
           gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
-          gcloud functions deploy ${{secrets.GOOGLE_CONVERT_TO_MARKDOWN_FUNCTION_NAME}} \
+          gcloud beta functions deploy ${{secrets.GOOGLE_CONVERT_TO_MARKDOWN_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
             --source data-integration/convert-markdown-to-html \
             --memory 128MB \
             --allow-unauthenticated \
             --entry-point convert_to_markdown \
+            --ingress-settings internal-only \
             --trigger-http \

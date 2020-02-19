@@ -1,7 +1,6 @@
 import markdown2
 import base64
 
-# main function to call
 def convert_to_markdown(request):
     request_json = request.get_json()
     if request_json and 'markdown64' in request_json:
