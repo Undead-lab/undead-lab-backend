@@ -1,0 +1,32 @@
+name: CI integrate modified article
+
+on:
+  push:
+    branches: dev
+    paths:
+      - 'data-integration/integrate-modified-article/**'
+
+jobs:
+  deploy-to-google-cloud-function:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Deploy image to Cloud Functions
+      - name: Deploy
+        run: |
+          echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
+          gcloud auth activate-service-account --key-file=./google-key.json
+          gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
+          gcloud beta functions deploy ${{secrets.GOOGLE_INTEGRATE_MODIFIED_ARTICLE_FUNCTION_NAME}} \
+            --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
+            --runtime python37 \
+            --source data-integration/integrate-modified-article \
+            --memory 128MB \
+            --allow-unauthenticated \
+            --entry-point integrate_modified_article \
+            --trigger-http \
+            --set-env-vars RETRIEVE_GITHUB_ARTICLE_URI=${{secrets.RETRIEVE_GITHUB_ARTICLE_URI_DEV}},CONVERT_MARKDOWN_ARTICLE_URI=${{secrets.CONVERT_MARKDOWN_ARTICLE_URI_DEV}},PUSH_TO_FIRESTORE_URI=${{secrets.PUSH_TO_FIRESTORE_URI_DEV}}
