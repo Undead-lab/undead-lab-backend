@@ -1,9 +1,9 @@
-name: CI
+name: CI frontend
 
 on:
   push:
     branches: dev
-    paths: 
+    paths:
       - 'frontend/**'
 
 jobs:

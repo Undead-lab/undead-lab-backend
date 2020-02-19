@@ -1,10 +1,10 @@
-name: CI convert markdown cloud function
+name: CI retrieve github article content
 
 on:
   push:
     branches: dev
     paths:
-      - 'data-integration/convert-markdown-to-html/**'
+      - 'data-integration/retrieve-github-article-content/**'
 
 jobs:
   deploy-to-google-cloud-function:
@@ -21,11 +21,11 @@ jobs:
           echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
           gcloud auth activate-service-account --key-file=./google-key.json
           gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
-          gcloud functions deploy ${{secrets.GOOGLE_CONVERT_TO_MARKDOWN_FUNCTION_NAME}} \
+          gcloud functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_ARTICLE_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
-            --source data-integration/convert-markdown-to-html \
+            --source data-integration/retrieve-github-article-content \
             --memory 128MB \
             --allow-unauthenticated \
-            --entry-point convert_to_markdown \
+            --entry-point retrieve_github_content \
             --trigger-http \
