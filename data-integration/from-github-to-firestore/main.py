@@ -2,6 +2,7 @@ import requests
 import markdown2
 from google.cloud import firestore
 import base64
+import os
 
 def from_github_to_firestore(event, context):
     path = base64.b64decode(event['data']).decode("utf-8")
@@ -12,7 +13,7 @@ def from_github_to_firestore(event, context):
     return False
 
 def retrieve_github_content(path):
-    resp = requests.get('https://api.github.com/repos/wootlab/wootlab-io-posts/contents/' + path)
+    resp = requests.get( 'https://api.github.com/repos/wootlab/wootlab-io-posts/contents/'+ path + '?ref=' + os.environ.get('GITHUB_POSTS_BRANCH', 'Not found'))
     if resp and resp.status_code == 200:
         json = resp.json()
         return json['content']
@@ -27,5 +28,5 @@ def push_to_firestore(name, html):
     data = {
         u'content': html
     }
-    db.collection(u'htmlContent').document(name).set(data)
+    db.collection(u'htmlContent').document(name.replace("/", "-")).set(data)
     return True

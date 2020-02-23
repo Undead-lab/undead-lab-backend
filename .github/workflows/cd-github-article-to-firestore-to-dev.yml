@@ -30,3 +30,4 @@ jobs:
             --entry-point from_github_to_firestore \
             --ingress-settings internal-only \
             --trigger-topic updated_article_event \
+            --set-env-vars GITHUB_POSTS_BRANCH=dev
