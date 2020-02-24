@@ -14,10 +14,10 @@
         <div class="btns-list-container">
           <div class="btns-list-duo first-duo">
             <div>
-              <router-link to="/news" class="home-btn first first-duo-btn blog-btn">Blog</router-link>
+              <router-link to="/blog" class="home-btn first first-duo-btn blog-btn">Blog</router-link>
             </div>
             <div>
-              <router-link to="/doc" class="home-btn projects-btn">Projects</router-link>
+              <router-link to="/projects" class="home-btn projects-btn">Projects</router-link>
             </div>
           </div>
           <div class="btns-list-duo second-duo">
@@ -61,7 +61,6 @@ export default {
     align-items: center;
     overflow: hidden;
     background-image:url("../assets/2769721.jpeg");
-    background-size: 100%;
     background-color:rgba(0, 0, 0, 0.5);
     min-height: 100vh;
     font-family: "Arvo", sans-serif;
