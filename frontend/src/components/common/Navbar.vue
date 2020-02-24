@@ -3,7 +3,7 @@
     <div class="navbar navbar-centered">
       <div class="navbar-brand">
         <router-link to="/" tabindex="0" class="navbar-item logo-title">
-          <b>Wootlab</b>.io
+          <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>Wootlab</b>.io{ }
         </router-link>
         <a tabindex="0" role="button" class='navbar-burger burger' id="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
@@ -20,12 +20,6 @@
           </router-link>
           <router-link to="blog" tabindex="0" class="navbar-item link-nav">
             Blog
-          </router-link>
-          <router-link to="projects" tabindex="0" class="navbar-item link-nav">
-            Projects
-          </router-link>
-          <router-link to="admin" tabindex="0" class="navbar-item link-nav">
-            Admin
           </router-link>
         </div>
       </div>
@@ -106,6 +100,8 @@ export default {
     width: 50%;
   }
 
+  .logo-title-img{margin-right:10px;}
+
   @media (min-width: 1024px){
     .logo-title{padding-left:0px;}
   }
@@ -115,6 +111,9 @@ export default {
     }
     .link-nav:hover::before {
       width: 0%;
+    }
+    .router-link-active::before{
+      width:0%;
     }
 
     .navbar-centered{
