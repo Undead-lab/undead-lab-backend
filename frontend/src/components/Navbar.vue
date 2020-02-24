@@ -71,7 +71,7 @@ export default {
     content: " ";
     display: block;
     width: 0px;
-    background-color: #4a6fa5;
+    background-color: #a70055;
     height: 4px;
     bottom: 0.6rem;
     transition: width 0.2s ease-in-out 0s;

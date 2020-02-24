@@ -48,7 +48,7 @@ export default {
   .img-logo {
     border-radius: 50%;
     height: 220px;
-    opacity: 0.7;
+    border:3px solid white;
   }
 
   .home {
@@ -60,7 +60,9 @@ export default {
     -moz-box-align: center;
     align-items: center;
     overflow: hidden;
-    background-color: #166088;
+    background-image:url("../assets/2769721.jpeg");
+    background-size: 100%;
+    background-color:rgba(0, 0, 0, 0.5);
     min-height: 100vh;
     font-family: "Arvo", sans-serif;
   }
