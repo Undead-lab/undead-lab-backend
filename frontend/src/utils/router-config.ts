@@ -30,4 +30,9 @@ const router = new VueRouter(
     routes: routes
   })
 
+router.beforeEach((to, from, next) => {
+  document.getElementsByTagName('html').item(0)!.focus()
+  next()
+})
+
 export default router

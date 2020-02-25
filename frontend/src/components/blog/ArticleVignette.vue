@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <router-link to="/blog/something">
+    <router-link to="/blog/something" class="link-card">
       <div class="card article-miniature">
         <div class="card-image">
           <figure class="image is-3by3">
@@ -17,8 +17,7 @@
 
           <div class="content">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-            <a href="#">#css</a> <a href="#">#responsive</a>
+            Phasellus nec iaculis mauris hasellus nec iaculis mauris.
             <br><br>
             <time datetime="2016-1-1">1 Jan 2016</time>
           </div>
@@ -39,6 +38,10 @@ export default {
   .article-miniature:hover{
     cursor:pointer;
     background:#EDEDED;
+  }
+
+  .link-card:focus .article-miniature{
+    background: #EDEDED;
   }
 
   .article-miniature:hover .title{

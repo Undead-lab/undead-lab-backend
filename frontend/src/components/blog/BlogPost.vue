@@ -2,16 +2,20 @@
   <div class="blog-container">
     <div>
       <img src="../../assets/fox1.jpg" style="width:100%;"/>
-      <div class="post-title-test">
-        Comment changer de banque ?
+      <div class="post-title-desktop">
+        Lorem ipsum data jacta es sorimen ?
       </div>
     </div>
     <div class="blog-container-content">
-      <div class="post-image-credits">
-        Credits : Picture by someone bla bla
+      <div class="post-title-mobile">
+        Lorem ipsum data jacta es sorimen ?
       </div>
-      <div class="post-date">
-        2020-01-23
+      <div class="post-informations">
+        <div class="infosArticles">
+          <span class="minititle"> <font-awesome-icon icon="clock"/> <span class="val">2020-02-10</span></span>
+          <span class="minititle"> <font-awesome-icon icon="user"/><span class="val">zThulj (Jérémy THULLIEZ)</span></span>
+          <span class="minititle"> <font-awesome-icon icon="image"/><span class="val">Picture by someone bla bla</span></span>
+        </div>
       </div>
       <div class="post-content content is-medium">
         <h1>Title 1</h1>
@@ -41,6 +45,25 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </div>
+      <div class="share-content">
+        <div><b>Partager cet article sur les réseaux sociaux :</b></div>
+        <br/>
+        <a class="button is-primary is-Twitter">
+          <span class="icon">
+            <font-awesome-icon :icon="['fab', 'twitter']" />
+          </span>
+          <span>Twitter</span>
+        </a>
+        <a class="button is-primary is-linkedIn">
+          <span class="icon">
+            <font-awesome-icon :icon="['fab', 'linkedin']" />
+          </span>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer">
+      end
     </div>
   </div>
 </template>
@@ -52,13 +75,64 @@ export default {
 </script>
 
 <style scoped>
+
+  .post-title-mobile{
+    display:none;
+  }
+  .is-Twitter{
+    background:#08a0e9 !important;
+  }
+
+  .is-Twitter:hover{
+    background:#0790d9 !important;
+  }
+
+  .is-linkedIn{
+    background:#0876a8 !important;
+    margin-left:10px;
+  }
+
+  .is-linkedIn:hover{
+    background:#076698 !important;
+    margin-left:10px;
+  }
+
+  .blog-container-content{
+    width:1024px;
+    margin: -10px auto auto;
+    background:white;
+    padding-bottom:40px;
+    padding-top:15px;
+  }
+
+  @media (max-width: 1024px) {
+    .blog-container-content{
+      width:100%;
+    }
+
+    .post-title-desktop{
+      display:none;
+    }
+
+    .post-title-mobile{
+      display:block;
+      width:100%;
+      padding:20px 40px 20px 40px;
+      text-align: center;
+      font-family: 'Arvo', sans-serif;
+      font-size:3em;
+      font-weight:bold;
+    }
+  }
+
   .blog-container{
     text-align:left;
   }
 
-  .post-title-test{
+  .post-title-desktop{
+    line-height:1.1;
     position:absolute;
-    top:25%;
+    margin-top:-350px;
     width:100%;
     padding:40px;
     text-align: center;
@@ -70,10 +144,12 @@ export default {
     -webkit-text-fill-color: white;
   }
 
-  .blog-container-content{
-    width:1024px;
-    margin: -10px auto auto;
-    background:white;
+  .minititle{
+    margin-right:0.8em; color:#666666
+  }
+
+  .minititle .val{
+    margin-left:5px;
   }
 
   .post-image-credits{
@@ -96,10 +172,10 @@ export default {
     font-weight: bold;
   }
 
-  .post-date{
-    text-align:center;
+  .post-informations{
     font-size:14px;
     color:lightgray;
+    padding-left:40px;
   }
 
   .post-content{
@@ -107,6 +183,15 @@ export default {
     padding-left:40px;
     padding-right:40px;
     text-align: justify;
+  }
+
+  .share-content{
+    padding-left:40px;
+    padding-right:40px;
+  }
+
+  .footer{
+    background-color:#303440;
   }
 
 </style>

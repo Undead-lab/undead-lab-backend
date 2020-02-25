@@ -60,8 +60,9 @@ export default {
     -moz-box-align: center;
     align-items: center;
     overflow: hidden;
-    background-image:url("../assets/bglion.jpg");
-    background-color:rgba(0, 0, 0, 0.5);
+    background-color:rgba(0, 0, 0, 1);
+    background-image: url("../assets/space-min.jpg");
+    background-position: center;
     background-size: 100%;
     min-height: 100vh;
     font-family: "Arvo", sans-serif;
@@ -149,6 +150,10 @@ export default {
   }
 
   @media (max-width: 1024px) {
+    .home{
+      background-size: 200%;
+    }
+
     .title-principal-first {
       font-size: 3.7em;
     }

@@ -1,5 +1,5 @@
 <template>
-  <nav role="navigation" class="navbar navbar-container" aria-label="main navigation">
+  <nav role="navigation" class="navbar navbar-container" aria-label="main navigation" :class="currentRoute.name== 'blog' ? 'reversed' : ''">
     <div class="navbar navbar-centered">
       <div class="navbar-brand">
         <router-link to="/" tabindex="0" class="navbar-item logo-title">
@@ -38,6 +38,11 @@ export default {
       navBarBurger.classList.toggle('is-active')
       $target.classList.toggle('is-active')
     })
+  },
+  computed: {
+    currentRoute () {
+      return this.$route
+    }
   }
 }
 </script>
@@ -47,9 +52,16 @@ export default {
   .navbar {
     background:transparent;
   }
+  .reversed{
+    background:white;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.12);
+  }
+
   .navbar-item{
     color:white;
   }
+
+  .reversed .navbar-item{color:black;}
 
   .navbar-container-white-bg {
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.12);
@@ -57,7 +69,7 @@ export default {
 
   .navbar-container{
     width:100%;
-    position:absolute;
+    position:absolute ;
     height:80px;
   }
 
