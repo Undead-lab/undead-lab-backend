@@ -60,8 +60,9 @@ export default {
     -moz-box-align: center;
     align-items: center;
     overflow: hidden;
-    background-image:url("../assets/2769721.jpeg");
+    background-image:url("../assets/bglion.jpg");
     background-color:rgba(0, 0, 0, 0.5);
+    background-size: 100%;
     min-height: 100vh;
     font-family: "Arvo", sans-serif;
   }

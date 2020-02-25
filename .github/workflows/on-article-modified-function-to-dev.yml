@@ -1,0 +1,33 @@
+name: CI on article modified function to DEV
+
+on:
+  push:
+    branches: dev
+    paths:
+      - 'data-integration/on-article-modified-function/**'
+
+jobs:
+  deploy-to-google-cloud-function:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Deploy image to Cloud Functions
+      - name: Deploy
+        run: |
+          echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
+          gcloud auth activate-service-account --key-file=./google-key.json
+          gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
+          gcloud beta functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_ARTICLE_FUNCTION_NAME}} \
+            --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
+            --runtime python37 \
+            --source data-integration/on-article-modified-function \
+            --memory 128MB \
+            --allow-unauthenticated \
+            --entry-point from_github_to_firestore \
+            --ingress-settings internal-only \
+            --trigger-topic updated_article_event \
+            --set-env-vars GITHUB_POSTS_BRANCH=dev

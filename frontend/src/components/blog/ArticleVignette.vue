@@ -1,11 +1,28 @@
 <template>
   <div class="column">
-    <router-link to="test">
-      <div class="article-miniature">
-        <img class="articleimg" src="../../assets/lion1.jpg" />
-        <div class="article-title">comment changer de banque ?</div>
-        <div class="article-date">2020-10-01</div>
-        <div class="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+    <router-link to="/blog/something">
+      <div class="card article-miniature">
+        <div class="card-image">
+          <figure class="image is-3by3">
+            <img src="../../assets/fox1.jpg" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">The title of my awesome blog post</p>
+              <p class="subtitle is-6">@zthulj (Jeremy THULLIEZ)</p>
+            </div>
+          </div>
+
+          <div class="content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+            <a href="#">#css</a> <a href="#">#responsive</a>
+            <br><br>
+            <time datetime="2016-1-1">1 Jan 2016</time>
+          </div>
+        </div>
       </div>
     </router-link>
   </div>
@@ -18,19 +35,13 @@ export default {
 </script>
 
 <style scoped>
-  .article-miniature{
-    background:white;
-    border-radius:5px;
-    line-height: 1;
-    color: #111;
-  }
 
   .article-miniature:hover{
     cursor:pointer;
     background:#EDEDED;
   }
 
-  .article-miniature:hover .article-title{
+  .article-miniature:hover .title{
     text-decoration: underline;
   }
 

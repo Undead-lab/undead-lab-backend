@@ -3,7 +3,7 @@
     <div class="navbar navbar-centered">
       <div class="navbar-brand">
         <router-link to="/" tabindex="0" class="navbar-item logo-title">
-          <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>Wootlab</b>.io{ }
+          <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>Wootlab</b>.io<span class="logo-brackets">{ }</span>
         </router-link>
         <a tabindex="0" role="button" class='navbar-burger burger' id="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
@@ -16,9 +16,9 @@
         </div>
         <div class="navbar-end">
           <router-link to="/" exact tabindex="0" class="navbar-item link-nav">
-            Accueil
+            Home
           </router-link>
-          <router-link to="blog" tabindex="0" class="navbar-item link-nav">
+          <router-link to="/blog" tabindex="0" class="navbar-item link-nav">
             Blog
           </router-link>
         </div>
@@ -44,13 +44,20 @@ export default {
 
 <style scoped type="scss">
 
-  .navbar-container {
+  .navbar {
+    background:transparent;
+  }
+  .navbar-item{
+    color:white;
+  }
+
+  .navbar-container-white-bg {
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.12);
   }
 
   .navbar-container{
     width:100%;
-    position:fixed;
+    position:absolute;
     height:80px;
   }
 
@@ -71,7 +78,6 @@ export default {
   }
 
   .link-nav {
-    color: rgba(40, 38, 49, 0.9);
     height: 3.5rem;
     line-height: 3.5rem;
     padding: 0px 1rem;
@@ -101,6 +107,7 @@ export default {
   }
 
   .logo-title-img{margin-right:10px;}
+  .logo-brackets{color:lightgray;margin-left: 5px;}
 
   @media (min-width: 1024px){
     .logo-title{padding-left:0px;}
