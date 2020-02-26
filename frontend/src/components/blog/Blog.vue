@@ -45,6 +45,21 @@
           <div>
             <b>Connect with me online</b>
           </div>
+          <a class="button is-primary is-Twitter">
+          <span class="icon">
+            <font-awesome-icon :icon="['fab', 'twitter']" />
+          </span>
+          </a>
+          <a class="button is-primary is-linkedIn">
+          <span class="icon">
+            <font-awesome-icon :icon="['fab', 'linkedin']" />
+          </span>
+          </a>
+          <a class="button is-primary is-github">
+          <span class="icon">
+            <font-awesome-icon :icon="['fab', 'github']" />
+          </span>
+          </a>
         </div>
       </div>
     </div>
@@ -101,6 +116,34 @@ export default {
       padding-left: 1.75em;
       padding-right: 1.75em;
     }
+  }
+
+  .is-Twitter{
+    background:#08a0e9 !important;
+  }
+
+  .is-Twitter:hover{
+    background:#0790d9 !important;
+  }
+
+  .is-linkedIn{
+    background:#0876a8 !important;
+    margin-left:10px;
+  }
+
+  .is-linkedIn:hover{
+    background:#076698 !important;
+    margin-left:10px;
+  }
+
+  .is-github{
+    background:#333 !important;
+    margin-left:10px;
+  }
+
+  .is-github:hover{
+    background:#222 !important;
+    margin-left:10px;
   }
 
 </style>

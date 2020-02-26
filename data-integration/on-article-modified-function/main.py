@@ -20,7 +20,7 @@ def retrieve_github_content(path):
 
 def convert_to_html(md64):
     markdown =  base64.b64decode(md64)
-    html = markdown2.markdown(markdown)
+    html = markdown2.markdown(markdown, extras=["fenced-code-blocks"])
     return html
 
 def push_to_firestore(name, html):
