@@ -1,0 +1,35 @@
+name: CI data exposition
+
+on:
+  push:
+    branches: dev
+    paths:
+      - 'data-exposition/**'
+
+jobs:
+  build-and-deploy-data-exposition:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Add google credentials
+      run: |
+        cd data-exposition
+        echo '${{secrets.GOOGLE_CREDENTIALS_DATA_EXPOSITION}}' > src/main/resources/google-credentials.json
+    - name: Set up JDK 1.11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11
+    - name: Build the application
+      run: |
+        cd data-exposition
+        mvn package
+    - name: Deploy to appEngine
+      run: |
+        echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
+        gcloud auth activate-service-account --key-file=./google-key.json
+        gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
+        cd data-exposition
+        mvn appengine:deploy
+

@@ -13,9 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
     - name: Build the project front
       run: |
         cd frontend

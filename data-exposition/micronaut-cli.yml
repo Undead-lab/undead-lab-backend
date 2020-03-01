@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: data20200228082204
+---
+testFramework: junit
+sourceLanguage: java
