@@ -1,10 +1,10 @@
-name: CI on article modified function to DEV
+name: CI on article meta modified function to DEV
 
 on:
   push:
     branches: dev
     paths:
-      - 'data-integration/on-article-content-modified-function/**'
+      - 'data-integration/on-article-meta-modified-function/**'
 
 jobs:
   deploy-to-google-cloud-function:
@@ -21,13 +21,13 @@ jobs:
           echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
           gcloud auth activate-service-account --key-file=./google-key.json
           gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
-          gcloud beta functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_ARTICLE_FUNCTION_NAME}} \
+          gcloud beta functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_META_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
-            --source data-integration/on-article-content-modified-function \
+            --source data-integration/on-article-meta-modified-function \
             --memory 128MB \
             --allow-unauthenticated \
             --entry-point from_github_to_firestore \
             --ingress-settings internal-only \
-            --trigger-topic updated_article_event \
+            --trigger-topic updated_article_meta \
             --set-env-vars GITHUB_POSTS_BRANCH=dev

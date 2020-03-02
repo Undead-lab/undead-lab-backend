@@ -3,14 +3,14 @@ package io.wootlab.data;
 import com.google.api.core.ApiFuture;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.*;
+import io.wootlab.data.model.Article;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -18,6 +18,10 @@ import java.util.concurrent.ExecutionException;
 public class FirestoreClient {
 
     private Firestore firestore;
+
+    public Firestore getFirestore() {
+        return firestore;
+    }
 
     @PostConstruct
     public void init() throws IOException {
@@ -29,21 +33,5 @@ public class FirestoreClient {
                                 .build());
     }
 
-    public Optional<String> getArticleContent(){
-        DocumentReference docRef = firestore.collection("htmlContent").document("articles-florian.md");
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        DocumentSnapshot document = null;
-
-        try {
-            document = future.get();
-            if (document.exists()) {
-                 return Optional.of(document.toObject(ArticleContent.class).getContent());
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return Optional.empty();
-    }
 
 }

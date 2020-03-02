@@ -12,6 +12,8 @@ def from_github_to_firestore(event, context):
         return push_to_firestore(path,html)
     return False
 
+
+
 def retrieve_github_content(path):
     resp = requests.get( 'https://api.github.com/repos/wootlab/wootlab-io-posts/contents/'+ path + '?ref=' + os.environ.get('GITHUB_POSTS_BRANCH', 'Not found'))
     if resp and resp.status_code == 200:
