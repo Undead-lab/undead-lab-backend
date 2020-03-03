@@ -1,4 +1,4 @@
-package io.wootlab.data;
+package io.wootlab.data.model;
 
 public class ArticleContent {
     private String content;
