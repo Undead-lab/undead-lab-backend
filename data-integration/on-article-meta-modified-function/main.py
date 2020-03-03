@@ -21,7 +21,6 @@ def retrieve_github_content(path):
         json = resp.json()
         return json['content']
 
-
 def convert_to_json(json64):
     decoded_content = base64.b64decode(json64)
     return json.loads(decoded_content.decode("utf-8"))
@@ -34,8 +33,7 @@ def push_to_firestore(name, meta):
         u'title': meta['title'],
         u'description': meta['description'],
         u'url': meta['url'],
-        u'images': {
-        },
+        u'images': meta['images'],
         u'tag': meta['tag'],
         u'date': meta['date'],
         u'author': meta['author'],

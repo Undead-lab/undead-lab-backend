@@ -12,8 +12,6 @@ def from_github_to_firestore(event, context):
         return push_to_firestore(path,html)
     return False
 
-
-
 def retrieve_github_content(path):
     resp = requests.get( 'https://api.github.com/repos/wootlab/wootlab-io-posts/contents/'+ path + '?ref=' + os.environ.get('GITHUB_POSTS_BRANCH', 'Not found'))
     if resp and resp.status_code == 200:
@@ -27,8 +25,10 @@ def convert_to_html(md64):
 
 def push_to_firestore(name, html):
     db = firestore.Client()
+    path = name.replace("/", "-").replace("-article.md", "")
     data = {
+        u'path': path,
         u'content': html
     }
-    db.collection(u'htmlContent').document(name.replace("/", "-").replace("-article.md", "")).set(data)
+    db.collection(u'htmlContent').document(path).set(data)
     return True

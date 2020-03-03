@@ -1,4 +1,4 @@
-name: CI on article meta modified function to DEV
+name: On article meta modified function CI
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           echo '${{secrets.GOOGLE_CREDENTIALS}}' > google-key.json
           gcloud auth activate-service-account --key-file=./google-key.json
           gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
-          gcloud beta functions deploy ${{secrets.GOOGLE_RETRIEVE_GITHUB_META_FUNCTION_NAME}} \
+          gcloud beta functions deploy ${{secrets.GOOGLE_ON_ARTICLE_META_MODIFIED_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
             --source data-integration/on-article-meta-modified-function \
@@ -29,5 +29,5 @@ jobs:
             --allow-unauthenticated \
             --entry-point from_github_to_firestore \
             --ingress-settings internal-only \
-            --trigger-topic updated_article_meta \
+            --trigger-topic ${{secrets.ARTICLE_META_MODIFIED_EVENT_TOPIC}} \
             --set-env-vars GITHUB_POSTS_BRANCH=dev
