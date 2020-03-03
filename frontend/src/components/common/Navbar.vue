@@ -5,20 +5,21 @@
         <router-link to="/" tabindex="0" class="navbar-item logo-title">
           <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>Wootlab</b>.io<span class="logo-brackets">{ }</span>
         </router-link>
-        <a tabindex="0" role="button" class='navbar-burger burger' :class="currentRoute.name== 'blog' ? 'reversed-burger' : ''" id="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a tabindex="0" role="button" class='navbar-burger burger' :class="{'reversed-burger': currentRoute.name== 'blog', 'is-active' : showMenu}"
+           id="navbar-burger" aria-label="menu" :aria-expanded="showMenu" @click="toggleMenu(null)">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarBasicExample" class="navbar-menu">
+      <div :class="{'is-active' : showMenu}" class="navbar-menu">
         <div class="navbar-start">
         </div>
         <div class="navbar-end">
-          <router-link to="/" onclick="document.getElementById('navbarBasicExample').classList.remove('is-active')" exact tabindex="0" class="navbar-item link-nav">
+          <router-link to="/" @click.native="toggleMenu(false)" exact tabindex="0" class="navbar-item link-nav">
             Home
           </router-link>
-          <router-link to="/blog" onclick="document.getElementById('navbarBasicExample').classList.remove('is-active')" tabindex="0" class="navbar-item link-nav">
+          <router-link to="/blog" @click.native="toggleMenu(false)" tabindex="0" class="navbar-item link-nav">
             Blog
           </router-link>
         </div>
@@ -30,18 +31,24 @@
 <script>
 export default {
   name: 'Navbar',
-  mounted () {
-    const navBarBurger = document.getElementById('navbar-burger')
-    navBarBurger.addEventListener('click', () => {
-      const target = navBarBurger.dataset.target
-      const $target = document.getElementById(target)
-      navBarBurger.classList.toggle('is-active')
-      $target.classList.toggle('is-active')
-    })
+  data () {
+    return {
+      showMenu: false
+    }
+  },
+  methods: {
+    toggleMenu (forceDisplay = null) {
+      this.showMenu = forceDisplay !== null ? forceDisplay : !this.showMenu
+    }
   },
   computed: {
     currentRoute () {
       return this.$route
+    }
+  },
+  watch: {
+    currentRoute () {
+      this.toggleMenu(false)
     }
   }
 }
