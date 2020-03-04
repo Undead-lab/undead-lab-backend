@@ -5,7 +5,6 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import io.wootlab.data.model.Article;
 import io.wootlab.data.model.ArticleContent;
-import io.wootlab.data.model.HtmlContent;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +18,7 @@ public class ArticlesService {
     @Inject
     FirestoreClient db;
 
-    public Optional<Article> findArticleByUrl(String url){
+    public Optional<Article> findArticleByUrl(String url) {
         ApiFuture<QuerySnapshot> future = db.getFirestore().collection("article").whereEqualTo("url", url).get();
         try {
             QuerySnapshot query = future.get();
@@ -52,14 +51,40 @@ public class ArticlesService {
         return Optional.empty();
     }
 
-    public List<Article> findArticleByTag(String tag){
+    public List<Article> findArticlesByTag(String tag) {
         var result = new ArrayList<Article>();
-        ApiFuture<QuerySnapshot> future =  db.getFirestore().collection("articles").whereEqualTo("tag", tag).get();
+
+        var query = db.getFirestore().collection("article").whereEqualTo("tag", tag);
+
+        ApiFuture<QuerySnapshot> future = query.get();
 
         try {
-            QuerySnapshot query = future.get();
-            if (query.getDocuments() != null && query.getDocuments().size() < 0) {
-                for (QueryDocumentSnapshot queryDocument: query.getDocuments()) {
+            QuerySnapshot queryResult = future.get();
+            if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
+                for (QueryDocumentSnapshot queryDocument : queryResult.getDocuments()) {
+                    var article = queryDocument.toObject(Article.class);
+                    if (article.isPublished()) {
+                        result.add(article);
+                    }
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public List<Article> findArticles() {
+        var result = new ArrayList<Article>();
+
+        var query = db.getFirestore().collection("article").whereEqualTo("published", true).limit(10);
+
+        ApiFuture<QuerySnapshot> future = query.get();
+
+        try {
+            QuerySnapshot queryResult = future.get();
+            if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
+                for (QueryDocumentSnapshot queryDocument : queryResult.getDocuments()) {
                     result.add(queryDocument.toObject(Article.class));
                 }
             }
