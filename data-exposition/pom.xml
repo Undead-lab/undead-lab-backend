@@ -148,6 +148,7 @@
                 <configuration>
                     <projectId>wootlab-io-development</projectId>
                     <version>GCLOUD_CONFIG</version>
+                    <appEngineDirectory>src/main/appengine/dev</appEngineDirectory>
                 </configuration>
             </plugin>
         </plugins>
