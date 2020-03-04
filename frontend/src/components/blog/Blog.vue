@@ -1,19 +1,5 @@
 <template>
   <div class="blog-container">
-    <div class="blog-header">
-      <div>
-        <div class="section-title">
-          <div>
-            <b>Most visited posts</b>
-          </div>
-        </div>
-      </div>
-      <div class="columns">
-        <article-vignette/>
-        <article-vignette/>
-        <article-vignette/>
-      </div>
-    </div>
     <div class="columns list-articles">
       <div class="column is-three-quarters">
         <div>
@@ -23,22 +9,7 @@
             </div>
           </div>
         </div>
-        <div class="columns">
-          <article-vignette/>
-          <article-vignette/>
-        </div>
-        <div class="columns">
-          <article-vignette/>
-          <article-vignette/>
-        </div>
-        <div class="columns">
-          <article-vignette/>
-          <article-vignette/>
-        </div>
-        <div class="columns">
-          <article-vignette/>
-          <article-vignette/>
-        </div>
+          <article-vignette class="columns" v-for="article in articles" :article="article" :key="article"/>
       </div>
       <div class="column is-one-quarter">
         <div class="section-title">
@@ -69,10 +40,24 @@
 <script>
 
 import ArticleVignette from '@/components/blog/ArticleVignette'
+import axios from 'axios'
 
 export default {
   name: 'Blog',
-  components: { ArticleVignette }
+  components: { ArticleVignette },
+  data () {
+    return {
+      'articles': []
+    }
+  },
+  mounted () {
+    axios
+      .get('https://wootlab-io-development.appspot.com/articles')
+      .then(response => {
+        this.articles = response.data
+      }
+      )
+  }
 }
 </script>
 

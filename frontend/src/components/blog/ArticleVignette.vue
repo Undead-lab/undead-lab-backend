@@ -1,25 +1,24 @@
 <template>
   <div class="column">
-    <router-link to="/blog/something" class="link-card">
+    <router-link :to="'/blog/' + article.url" class="link-card">
       <div class="card article-miniature">
         <div class="card-image">
           <figure class="image is-3by3">
-            <img src="../../assets/fox1.jpg" alt="Placeholder image">
+            <img :src="article.images.miniatureUrl" alt="Placeholder image">
           </figure>
         </div>
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title is-4">The title of my awesome blog post</p>
-              <p class="subtitle is-6">@zthulj (Jeremy THULLIEZ)</p>
+              <p class="title is-4">{{article.title}}</p>
+              <p class="subtitle is-6">{{article.author}}</p>
             </div>
           </div>
 
           <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Phasellus nec iaculis mauris hasellus nec iaculis mauris.
+            {{article.description}}
             <br><br>
-            <time datetime="2016-1-1">1 Jan 2016</time>
+            <time datetime="2016-1-1">{{article.date}}</time>
           </div>
         </div>
       </div>
@@ -29,7 +28,8 @@
 
 <script>
 export default {
-  name: 'ArticleVignette'
+  name: 'ArticleVignette',
+  props: ['article']
 }
 </script>
 
