@@ -12,19 +12,6 @@
         </div>
         <div class="title-description">A random passionate developer's place</div>
         <div class="btns-list-container">
-          <div class="btns-list-duo first-duo">
-            <div>
-              <router-link to="/blog" class="home-btn first first-duo-btn blog-btn">Blog</router-link>
-            </div>
-            <div>
-              <router-link to="/projects" class="home-btn projects-btn">Projects</router-link>
-            </div>
-          </div>
-          <div class="btns-list-duo second-duo">
-            <div><a href="https://twitter.com/zthulj" target="_blank" class="home-btn first-duo">Twitter</a></div>
-            <div><a href="https://www.linkedin.com/in/jeremythulliez/" target="_blank" class="home-btn">LinkedIn</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -126,6 +113,7 @@ export default {
     position: relative;
     padding-bottom: 1.2em;
     margin-bottom: 0.8rem;
+    padding-top:1.3em;
     color: white;
   }
 

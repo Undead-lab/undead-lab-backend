@@ -1,54 +1,25 @@
 <template>
   <div class="blog-container">
     <div>
-      <img src="../../assets/fox1.jpg" style="width:100%;"/>
+      <img :src="article.images.highResolutionUrl" style="width:100%;"/>
       <div class="post-title-desktop">
-        Lorem ipsum data jacta es sorimen
+        {{article.title}}
       </div>
     </div>
     <div class="blog-container-content">
       <div class="post-title-mobile">
-        Lorem ipsum data jacta es sorimen
+        {{article.title}}
       </div>
       <div class="post-informations">
         <div class="infosArticles">
-          <div class="minititle"> <font-awesome-icon icon="clock"/><span class="val">2020-02-10</span></div>
-          <div class="minititle"> <font-awesome-icon icon="user"/><span class="val">zThulj (Jérémy THULLIEZ)</span></div>
-          <div class="minititle"> <font-awesome-icon icon="tag"/><span class="val">Game development</span></div>
-          <div class="minititle"> <font-awesome-icon icon="image"/><span class="val">Picture by someone bla bla</span></div>
+          <div class="minititle"> <font-awesome-icon icon="clock"/><span class="val">{{article.date}}</span></div>
+          <div class="minititle"> <font-awesome-icon icon="user"/><span class="val">{{article.author}}</span></div>
+          <div class="minititle"> <font-awesome-icon icon="tag"/><span class="val">{{article.tag}}</span></div>
+          <div class="minititle"> <font-awesome-icon icon="image"/><span class="val">{{article.images.credits}}</span></div>
           <div class="clear"> </div>
         </div>
       </div>
-      <div class="post-content content is-medium">
-        <h1>Title 1</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h1>Title 1</h1>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <img src="../../assets/lion1.jpg"/>
-        <h2>Title 2</h2>
-        <ul>
-          <li>
-            test
-          </li>
-          <li>
-            test2
-          </li>
-        </ul>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-        <h3>Title 3</h3>
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <h4>Title 4</h4>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <div>
-          <iframe class="post-video" src="https://www.youtube.com/embed/_VcWDetcX3U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <div class="post-content content is-medium" v-html="article.content">
       </div>
       <div class="share-content">
         <div><b>Share this post on the socials:</b></div>
@@ -63,35 +34,33 @@
     </div>
     <div class="footer-container">
       <div class="footer-content">
-        <div class="section-title">
-          <div>
-            <b>Connect with me online</b>
-          </div>
-          <a class="button is-primary is-Twitter">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'twitter']" />
-          </span>
-          </a>
-          <a class="button is-primary is-linkedIn">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'linkedin']" />
-          </span>
-          </a>
-          <a class="button is-primary is-github">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'github']" />
-          </span>
-          </a>
-        </div>
-
+        <SocialNetworkLink/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 export default {
-  name: 'BlogPost'
+  name: 'BlogPost',
+  components: { SocialNetworkLink },
+  data () {
+    return {
+      'article': {
+        'image': {}
+      }
+    }
+  },
+  mounted () {
+    axios
+      .get('https://wootlab-io-development.appspot.com/articles/' + this.$route.params.path)
+      .then(response => {
+        this.article = response.data
+      }
+      )
+  }
 }
 </script>
 
@@ -99,23 +68,6 @@ export default {
 
   .post-title-mobile{
     display:none;
-  }
-  .is-Twitter{
-    background:#08a0e9 !important;
-  }
-
-  .is-Twitter:hover{
-    background:#0790d9 !important;
-  }
-
-  .is-linkedIn{
-    background:#0876a8 !important;
-    margin-left:10px;
-  }
-
-  .is-linkedIn:hover{
-    background:#076698 !important;
-    margin-left:10px;
   }
 
   .comment-content{
@@ -263,14 +215,11 @@ export default {
     padding-bottom:20px;
   }
 
-  .is-github{
-    background:#333 !important;
-    margin-left:10px;
+  .is-Twitter{
+    background:#08a0e9 !important;
   }
 
-  .is-github:hover{
-    background:#222 !important;
-    margin-left:10px;
+  .is-Twitter:hover{
+    background:#0790d9 !important;
   }
-
 </style>

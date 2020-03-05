@@ -12,26 +12,7 @@
           <article-vignette class="columns" v-for="article in articles" :article="article" :key="article"/>
       </div>
       <div class="column is-one-quarter">
-        <div class="section-title">
-          <div>
-            <b>Connect with me online</b>
-          </div>
-          <a class="button is-primary is-Twitter">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'twitter']" />
-          </span>
-          </a>
-          <a class="button is-primary is-linkedIn">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'linkedin']" />
-          </span>
-          </a>
-          <a class="button is-primary is-github">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'github']" />
-          </span>
-          </a>
-        </div>
+        <SocialNetworkLink/>
       </div>
     </div>
   </div>
@@ -40,11 +21,12 @@
 <script>
 
 import ArticleVignette from '@/components/blog/ArticleVignette'
+import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 import axios from 'axios'
 
 export default {
   name: 'Blog',
-  components: { ArticleVignette },
+  components: { ArticleVignette, SocialNetworkLink },
   data () {
     return {
       'articles': []
