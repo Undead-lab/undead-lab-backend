@@ -1,29 +1,27 @@
 <template>
-  <div class="column">
-    <router-link :to="'/blog/' + article.url" class="link-card">
-      <div class="card article-miniature">
-        <div class="card-image">
-          <figure class="image is-3by3">
-            <img :src="article.images.miniatureUrl" alt="Placeholder image">
-          </figure>
+  <router-link :to="'/blog/' + article.url" class="link-card">
+    <div class="card article-miniature">
+      <div class="card-image">
+        <figure class="image is-3by3">
+          <img :src="article.images.miniatureUrl" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content">
+            <p class="title is-4">{{article.title}}</p>
+            <p class="subtitle is-6">{{article.author}}</p>
+          </div>
         </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-content">
-              <p class="title is-4">{{article.title}}</p>
-              <p class="subtitle is-6">{{article.author}}</p>
-            </div>
-          </div>
 
-          <div class="content">
-            {{article.description}}
-            <br><br>
-            <time datetime="2016-1-1">{{article.date}}</time>
-          </div>
+        <div class="content">
+          {{article.description}}
+          <br><br>
+          <time datetime="2016-1-1">{{article.date}}</time>
         </div>
       </div>
-    </router-link>
-  </div>
+    </div>
+  </router-link>
 </template>
 
 <script>

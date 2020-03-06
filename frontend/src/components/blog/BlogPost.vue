@@ -1,40 +1,43 @@
 <template>
-  <div class="blog-container">
-    <div>
-      <img :src="article.images.highResolutionUrl" style="width:100%;"/>
-      <div class="post-title-desktop">
-        {{article.title}}
-      </div>
-    </div>
-    <div class="blog-container-content">
-      <div class="post-title-mobile">
-        {{article.title}}
-      </div>
-      <div class="post-informations">
-        <div class="infosArticles">
-          <div class="minititle"> <font-awesome-icon icon="clock"/><span class="val">{{article.date}}</span></div>
-          <div class="minititle"> <font-awesome-icon icon="user"/><span class="val">{{article.author}}</span></div>
-          <div class="minititle"> <font-awesome-icon icon="tag"/><span class="val">{{article.tag}}</span></div>
-          <div class="minititle"> <font-awesome-icon icon="image"/><span class="val">{{article.images.credits}}</span></div>
-          <div class="clear"> </div>
+  <div>
+    <Loader v-if="loading || !mainImageLoaded" :text="''"/>
+    <div class="blog-container" :class="{'displayNone': !mainImageLoaded }">
+      <div v-images-loaded:on.progress="loaded">
+        <img :src="article.images.highResolutionUrl" style="width:100%;"/>
+        <div class="post-title-desktop">
+          {{article.title}}
         </div>
       </div>
-      <div class="post-content content is-medium" v-html="article.content">
+      <div class="blog-container-content">
+        <div class="post-title-mobile">
+          {{article.title}}
+        </div>
+        <div class="post-informations">
+          <div class="infosArticles">
+            <div class="minititle"> <font-awesome-icon icon="clock"/><span class="val">{{article.date}}</span></div>
+            <div class="minititle"> <font-awesome-icon icon="user"/><span class="val">{{article.author}}</span></div>
+            <div class="minititle"> <font-awesome-icon icon="tag"/><span class="val">{{article.tag}}</span></div>
+            <div class="minititle"> <font-awesome-icon icon="image"/><span class="val">{{article.images.credits}}</span></div>
+            <div class="clear"> </div>
+          </div>
+        </div>
+        <div class="post-content content is-medium" v-html="article.content">
+        </div>
+        <div class="share-content">
+          <div><b>Share this post on the socials:</b></div>
+          <br/>
+          <a class="button is-primary is-Twitter">
+            <span class="icon">
+              <font-awesome-icon :icon="['fab', 'twitter']" />
+            </span>
+            <span>Twitter</span>
+          </a>
+        </div>
       </div>
-      <div class="share-content">
-        <div><b>Share this post on the socials:</b></div>
-        <br/>
-        <a class="button is-primary is-Twitter">
-          <span class="icon">
-            <font-awesome-icon :icon="['fab', 'twitter']" />
-          </span>
-          <span>Twitter</span>
-        </a>
-      </div>
-    </div>
-    <div class="footer-container">
-      <div class="footer-content">
-        <SocialNetworkLink/>
+      <div class="footer-container">
+        <div class="footer-content">
+          <SocialNetworkLink/>
+        </div>
       </div>
     </div>
   </div>
@@ -43,21 +46,36 @@
 <script>
 import axios from 'axios'
 import SocialNetworkLink from '@/components/common/SocialNetworkLink'
+import Loader from '@/components/common/Loader'
+import imagesLoaded from 'vue-images-loaded'
+
 export default {
   name: 'BlogPost',
-  components: { SocialNetworkLink },
+  components: { Loader, SocialNetworkLink },
   data () {
     return {
       'article': {
         'image': {}
-      }
+      },
+      'loading': true,
+      'mainImageLoaded': false
+    }
+  },
+  directives: {
+    imagesLoaded
+  },
+  methods: {
+    loaded (instance, image) {
+      setTimeout(() => { this.mainImageLoaded = true; this.$store.state.toggleOffNavbar = false }, 50)
     }
   },
   mounted () {
+    this.$store.state.toggleOffNavbar = true
     axios
       .get('https://wootlab-io-development.appspot.com/articles/' + this.$route.params.path)
       .then(response => {
         this.article = response.data
+        this.loading = false
       }
       )
   }
@@ -134,6 +152,11 @@ export default {
       font-family: 'Arvo', sans-serif;
       font-size:3em;
       font-weight:bold;
+    }
+
+    .displayNone {
+      height:0px;
+      overflow: hidden;
     }
   }
 
