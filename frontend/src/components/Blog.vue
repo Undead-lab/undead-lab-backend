@@ -69,6 +69,16 @@ export default {
         )
       }
       )
+  },
+  metaInfo () {
+    return {
+      title: 'Blog posts - Wootlab.io',
+      meta: [
+        { vmid: 'description', name: 'description', content: 'Blog section of Wootlab.io. Java, Rustlang, Kafka, VueJS, ELK, GCP and more...' },
+        { vmid: 'og:description', name: 'og:description', content: 'Blog section of Wootlab.io. Java, Rustlang, Kafka, VueJS, ELK, GCP and more...' },
+        { vmid: 'twitter:description', name: 'twitter:description', content: 'Blog section of Wootlab.io. Java, Rustlang, Kafka, VueJS, ELK, GCP and more...' }
+      ]
+    }
   }
 }
 </script>

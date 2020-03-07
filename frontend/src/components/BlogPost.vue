@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-if="loading || !mainImageLoaded" :text="''"/>
-    <div class="blog-container" :class="{'displayNone': !mainImageLoaded }">
+    <div class="blog-container" :class="{'displayNone': loading || !mainImageLoaded }">
       <div v-images-loaded:on.progress="loaded">
         <img :src="article.images.highResolutionUrl" style="width:100%;"/>
         <div class="post-title-desktop">
@@ -48,6 +48,7 @@ import axios from 'axios'
 import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 import Loader from '@/components/common/Loader'
 import imagesLoaded from 'vue-images-loaded'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'BlogPost',
@@ -55,10 +56,11 @@ export default {
   data () {
     return {
       'article': {
-        'image': {}
+        'images': {}
       },
       'loading': true,
-      'mainImageLoaded': false
+      'mainImageLoaded': false,
+      'retry': 0
     }
   },
   directives: {
@@ -66,18 +68,52 @@ export default {
   },
   methods: {
     loaded (instance, image) {
-      setTimeout(() => { this.mainImageLoaded = true; this.$store.state.toggleOffNavbar = false }, 50)
+      if (image.img.src !== '') {
+        setTimeout(() => { this.mainImageLoaded = true; this.$store.state.toggleOffNavbar = false }, 50)
+      }
+    },
+    loadArticle () {
+      axios
+        .get('https://wootlab-io-development.appspot.com/articles/' + this.$route.params.path)
+        .then(response => {
+          if (response.status === 200 && response.data !== '') {
+            this.article = response.data
+            this.loading = false
+          }
+        }
+        ).catch(e => {
+          this.retry++
+          if (this.retry < 5) {
+            setTimeout(() => { this.loadArticle() }, 500)
+          } else {
+            window.location.href = '/404'
+          }
+        })
     }
   },
-  mounted () {
+  beforeMount () {
     this.$store.state.toggleOffNavbar = true
-    axios
-      .get('https://wootlab-io-development.appspot.com/articles/' + this.$route.params.path)
-      .then(response => {
-        this.article = response.data
-        this.loading = false
-      }
-      )
+    this.loadArticle()
+  },
+  metaInfo () {
+    return {
+      title: this.article.title,
+      meta: [
+        { vmid: 'og:title', name: 'og:title', content: this.article.title },
+        { vmid: 'twitter:title', name: 'twitter:title', content: this.article.title },
+        { vmid: 'description', name: 'description', content: this.article.description },
+        { vmid: 'og:description', name: 'og:description', content: this.article.description },
+        { vmid: 'twitter:description', name: 'twitter:description', content: this.article.description },
+        { vmid: 'type', name: 'type', content: 'article' },
+        { vmid: 'og:type', name: 'og:type', content: 'article' },
+        { vmid: 'twitter:card', name: 'twitter:card', content: 'summary' },
+        { vmid: 'twitter:site', name: 'twitter:site', content: '@wootlab.io' },
+        { vmid: 'twitter:creator', name: 'twitter:creator', content: '@JeremyThulliez' },
+        { vmid: 'twitter:image', name: 'twitter:image', content: this.article.images.miniatureUrl },
+        { vmid: 'og:image', name: 'og:image', content: this.article.images.miniatureUrl },
+        { vmid: 'article:published_time', name: 'article:published_time', content: this.article.date }
+      ]
+    }
   }
 }
 </script>

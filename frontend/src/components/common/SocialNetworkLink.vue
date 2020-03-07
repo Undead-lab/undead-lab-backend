@@ -3,7 +3,7 @@
     <div>
       <b>Connect with me online</b>
     </div>
-    <a class="button is-primary is-Twitter" href="https://www.twitter.com/zthulj" target="_blank">
+    <a class="button is-primary is-Twitter" href="https://www.twitter.com/jeremythulliez" target="_blank">
           <span class="icon">
             <font-awesome-icon :icon="['fab', 'twitter']" />
           </span>

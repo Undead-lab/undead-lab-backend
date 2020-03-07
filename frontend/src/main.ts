@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './utils/router-config'
-import store from './store'
+import store from './utils/index'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faLinkedin, faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faClock, faUser, faImage, faTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
+import VueMeta from 'vue-meta'
 
 Vue.config.productionTip = false
+
+Vue.use(VueMeta, {
+  refreshOnceOnNavigation: true
+})
+
 require('./scss/main.scss')
 
 library.add(faTwitter, faLinkedin, faClock, faUser, faImage, faTag, faGithub

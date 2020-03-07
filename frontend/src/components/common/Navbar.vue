@@ -1,12 +1,12 @@
 <template>
   <div>
-    <nav role="navigation" class="navbar navbar-container" aria-label="main navigation" :class="currentRoute.name== 'blog' || toggleOff ? 'reversed' : ''">
+    <nav role="navigation" class="navbar navbar-container" aria-label="main navigation" :class="currentRoute.name== 'blog'  || toggleOff ? 'reversed' : ''">
       <div class="navbar navbar-centered">
         <div class="navbar-brand">
           <router-link to="/" tabindex="0" class="navbar-item logo-title">
             <img src="../../assets/fox-75.png" class="logo-title-img"/> <b>Wootlab</b>.io<span class="logo-brackets">{ }</span>
           </router-link>
-          <a tabindex="0" role="button" class='navbar-burger burger' :class="{'reversed-burger': currentRoute.name== 'blog', 'is-active' : showMenu}"
+          <a tabindex="0" role="button" class='navbar-burger burger' :class="{'reversed-burger': currentRoute.name == 'blog' || toggleOff, 'is-active' : showMenu}"
              id="navbar-burger" aria-label="menu" :aria-expanded="showMenu" @click="toggleMenu(null)">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>

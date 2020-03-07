@@ -20,7 +20,20 @@
 
 <script>
 export default {
-  name: 'home'
+  name: 'home',
+  mounted () {
+    this.$store.state.toggleOffNavbar = false
+  },
+  metaInfo () {
+    return {
+      title: 'Home - Wootlab.io',
+      meta: [
+        { vmid: 'description', name: 'description', content: 'I\'m Jeremy Thulliez, Coding the world @ZenikaLille. I\'m a Tech explorer, Java, Rustlang, Kafka, VueJS, ELK, GCP and more... Also indie game dev during the night..' },
+        { vmid: 'og:description', name: 'og:description', content: 'I\'m Jeremy Thulliez, Coding the world @ZenikaLille. I\'m a Tech explorer, Java, Rustlang, Kafka, VueJS, ELK, GCP and more... Also indie game dev during the night..' },
+        { vmid: 'twitter:description', name: 'twitter:description', content: 'I\'m Jeremy Thulliez, Coding the world @ZenikaLille. I\'m a Tech explorer, Java, Rustlang, Kafka, VueJS, ELK, GCP and more... Also indie game dev during the night..' }
+      ]
+    }
+  }
 }
 </script>
 <style type="scss" scoped>
