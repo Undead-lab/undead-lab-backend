@@ -74,7 +74,7 @@ export default {
     },
     loadArticle () {
       axios
-        .get('https://wootlab-io-development.appspot.com/articles/' + this.$route.params.path)
+        .get(process.env.VUE_APP_BACKEND_URL + '/articles/' + this.$route.params.path)
         .then(response => {
           if (response.status === 200 && response.data !== '') {
             this.article = response.data

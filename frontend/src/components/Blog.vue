@@ -58,7 +58,7 @@ export default {
   mounted () {
     this.$store.state.toggleOffNavbar = true
     axios
-      .get('https://wootlab-io-development.appspot.com/articles')
+      .get(process.env.VUE_APP_BACKEND_URL + '/articles')
       .then(response => {
         this.$store.state.toggleOffNavbar = false
         this.$nextTick(function () {
