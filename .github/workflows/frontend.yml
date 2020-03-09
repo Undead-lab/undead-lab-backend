@@ -1,0 +1,47 @@
+name: Front app to netlify
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build-and-deploy-frontend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the project front DEV
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        cd frontend
+        yarn global add @vue/cli
+        yarn install
+        yarn build --mode test
+    - name: Build the project front PROD
+      if: github.ref == 'refs/heads/master'
+      run: |
+        cd frontend
+        yarn global add @vue/cli
+        yarn install
+        yarn build --mode prod
+    - name: Publish to netlify DEV
+      if: github.ref == 'refs/heads/dev'
+      uses: zthulj/actions/cli@master
+      with:
+        args: deploy --dir=frontend/dist --prod
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
+    - name: Publish to netlify PROD
+      if: github.ref == 'refs/heads/master'
+      uses: zthulj/actions/cli@master
+      with:
+        args: deploy --dir=frontend/dist --prod
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROD_SITE_ID }}

@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: data-exposition
+  server:
+    cors:
+      enabled: true

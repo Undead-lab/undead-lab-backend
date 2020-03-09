@@ -1,0 +1,10 @@
+runtime: java11
+entrypoint: java -Xmx64m -jar data-1.0.SNAPSHOT.jar
+handlers:
+  - url: /.*
+    script: this field is required, but ignored
+
+instance_class: B1
+basic_scaling:
+  idle_timeout: 5m
+  max_instances: 1

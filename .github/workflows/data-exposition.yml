@@ -1,0 +1,46 @@
+name: Data exposition
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+    paths:
+      - 'data-exposition/**'
+
+jobs:
+  build-and-deploy-data-exposition:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Add google credentials DEV
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        cd data-exposition
+        echo '${{ secrets.GOOGLE_CREDENTIALS_DATA_EXPOSITION_DEV }}' > src/main/resources/google-credentials.json
+        echo '${{ secrets.GOOGLE_CREDENTIALS_CONTINUOUS_DELIVERY_DEV }}' > google-key.json
+        gcloud auth activate-service-account --key-file=./google-key.json
+        gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
+    - name: Add google credentials PROD
+      if: github.ref == 'refs/heads/master'
+      run: |
+        cd data-exposition
+        echo '${{ secrets.GOOGLE_CREDENTIALS_DATA_EXPOSITION_PROD }}' > src/main/resources/google-credentials.json
+        echo '${{ secrets.GOOGLE_CREDENTIALS_CONTINUOUS_DELIVERY_PROD }}' > google-key.json
+        gcloud auth activate-service-account --key-file=./google-key.json
+        gcloud config set project ${{secrets.GOOGLE_PROJECT_PROD_ID}}
+    - name: Set up JDK 1.11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11
+    - name: Build and deploy the application
+      run: cd data-exposition && mvn package
+    - name: Deploy to appEngine DEV
+      if: github.ref == 'refs/heads/dev'
+      run: cd data-exposition && mvn appengine:deploy
+    - name: Deploy to appEngine PROD
+      if: github.ref == 'refs/heads/master'
+      run: cd data-exposition && mvn appengine:deploy -Dpath.appengine=src/main/appengine/prod
+

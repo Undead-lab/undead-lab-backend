@@ -1,0 +1,4 @@
+requests
+grpcio
+google-cloud-core
+google-cloud-firestore
