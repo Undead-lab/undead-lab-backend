@@ -17,6 +17,7 @@
         <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
         <firestore.version>1.32.4</firestore.version>
         <path.appengine>src/main/appengine/dev</path.appengine>
+        <appengine.project.id>wootlab-io-development</appengine.project.id>
     </properties>
     <repositories>
         <repository>
@@ -147,7 +148,7 @@
                 <artifactId>appengine-maven-plugin</artifactId>
                 <version>2.2.0</version>
                 <configuration>
-                    <projectId>wootlab-io-development</projectId>
+                    <projectId>${appengine.project.id}</projectId>
                     <version>GCLOUD_CONFIG</version>
                     <appEngineDirectory>${path.appengine}</appEngineDirectory>
                 </configuration>

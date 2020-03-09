@@ -28,7 +28,7 @@ jobs:
         cd frontend
         yarn global add @vue/cli
         yarn install
-        yarn build --mode prod
+        yarn build --mode production
     - name: Publish to netlify DEV
       if: github.ref == 'refs/heads/dev'
       uses: zthulj/actions/cli@master
