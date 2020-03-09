@@ -23,16 +23,6 @@
         </div>
         <div class="post-content content is-medium" v-html="article.content">
         </div>
-        <div class="share-content">
-          <div><b>Share this post on the socials:</b></div>
-          <br/>
-          <a class="button is-primary is-Twitter">
-            <span class="icon">
-              <font-awesome-icon :icon="['fab', 'twitter']" />
-            </span>
-            <span>Twitter</span>
-          </a>
-        </div>
       </div>
       <div class="footer-container">
         <div class="footer-content">
