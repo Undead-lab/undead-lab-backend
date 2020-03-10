@@ -159,6 +159,9 @@ export default {
     .navbar-container{
       height:70px;
     }
+    .navbar{
+      position: fixed;
+    }
 
   }
 </style>

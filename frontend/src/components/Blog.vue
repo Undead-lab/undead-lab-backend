@@ -3,7 +3,7 @@
     <Loader v-if="loading || !allImagesLoaded" :text="''"/>
     <div :class="{'displayNone': !allImagesLoaded }" class="blog-container">
       <div class="columns list-articles">
-        <div class="column is-three-quarters">
+        <div class="column is-two-thirds">
           <div>
             <div class="section-title">
               <div>
@@ -17,8 +17,8 @@
                               :key="article.path"/>
           </div>
         </div>
-        <div class="column is-one-quarter">
-          <SocialNetworkLink/>
+        <div class="column is-one-third">
+          <SocialNetworkLink :is-floating="false"/>
         </div>
       </div>
     </div>

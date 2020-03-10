@@ -1,6 +1,6 @@
 <template>
-  <div class="section-title">
-    <div>
+  <div class="section-title" :class="{'floating': isFloating}">
+    <div :class="{'displaynone': isFloating}">
       <b>Connect with me online</b>
     </div>
     <a class="button is-primary is-Twitter" href="https://www.twitter.com/jeremythulliez" target="_blank">
@@ -23,11 +23,16 @@
 
 <script>
 export default {
-  name: 'SocialNetworkLink'
+  name: 'SocialNetworkLink',
+  props: ['isFloating']
 }
 </script>
 
 <style scoped>
+  .displaynone{
+    display:none;
+  }
+
   .is-Twitter{
     background:#08a0e9 !important;
   }
@@ -54,5 +59,11 @@ export default {
   .is-github:hover{
     background:#222 !important;
     margin-left:10px;
+  }
+
+  .floating{
+    position:absolute;
+    width:100%;
+    bottom:10px;
   }
 </style>

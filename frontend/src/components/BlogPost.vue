@@ -2,8 +2,8 @@
   <div>
     <Loader v-if="loading || !mainImageLoaded" :text="''"/>
     <div class="blog-container" :class="{'displayNone': loading || !mainImageLoaded }">
-      <div v-images-loaded:on.progress="loaded">
-        <img :src="article.images.highResolutionUrl" style="width:100%;"/>
+      <div v-images-loaded:on.progress="loaded" class="blog-image">
+        <img :src="article.images.highResolutionUrl"/>
         <div class="post-title-desktop">
           {{article.title}}
         </div>
@@ -23,10 +23,11 @@
         </div>
         <div class="post-content content is-medium" v-html="article.content">
         </div>
+        <AboutTheAuthor/>
       </div>
       <div class="footer-container">
         <div class="footer-content">
-          <SocialNetworkLink/>
+          <SocialNetworkLink :is-floating="false"/>
         </div>
       </div>
     </div>
@@ -36,13 +37,14 @@
 <script>
 import axios from 'axios'
 import SocialNetworkLink from '@/components/common/SocialNetworkLink'
+import AboutTheAuthor from '@/components/common/AboutTheAuthor'
 import Loader from '@/components/common/Loader'
 import imagesLoaded from 'vue-images-loaded'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'BlogPost',
-  components: { Loader, SocialNetworkLink },
+  components: { Loader, SocialNetworkLink, AboutTheAuthor },
   data () {
     return {
       'article': {
@@ -59,7 +61,25 @@ export default {
   methods: {
     loaded (instance, image) {
       if (image.img.src !== '') {
-        setTimeout(() => { this.mainImageLoaded = true; this.$store.state.toggleOffNavbar = false }, 50)
+        setTimeout(() => {
+          this.mainImageLoaded = true
+          this.$store.state.toggleOffNavbar = false
+          const blogImage = this.$el.querySelector('.blog-image')
+          if (blogImage) {
+            window.addEventListener('scroll', () => {
+              if (window.scrollY >= (blogImage.offsetHeight - 75)) {
+                blogImage.classList.add('blog-image--fixed--mobile')
+              } else {
+                blogImage.classList.remove('blog-image--fixed--mobile')
+              }
+              if (window.scrollY >= (blogImage.offsetHeight - 79)) {
+                blogImage.classList.add('blog-image--fixed')
+              } else {
+                blogImage.classList.remove('blog-image--fixed')
+              }
+            })
+          }
+        }, 50)
       }
     },
     loadArticle () {
@@ -108,7 +128,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
   .post-title-mobile{
     display:none;
@@ -116,6 +136,11 @@ export default {
 
   .comment-content{
     padding:40px;
+  }
+
+  .blog-image {
+    width:100%;
+    line-height:0px;
   }
 
   .footer-content{
@@ -144,9 +169,55 @@ export default {
     .minititle{
       float: left;
     }
+
+    .blog-image{
+
+       img {
+         transition: filter ease-in-out .3s;
+       }
+
+       &--fixed {
+         position: sticky;
+         transform: translateY(calc(-100% + 80px));
+         top: 0;
+         left: 0;
+         box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.52);
+
+         img {
+           filter: brightness(50%);
+         }
+
+         .post-title-desktop {
+           position: absolute;
+           font-size: 2.2rem;
+           padding: 0;
+           bottom: 22px;
+         }
+       }
+     }
   }
 
   @media (max-width: 1024px) {
+
+    .blog-image{
+      img {
+        transition: filter ease-in-out .3s;
+      }
+
+      &--fixed--mobile {
+        position: sticky;
+        transform: translateY(calc(-100% + 70px));
+        top: 0;
+        left: 0;
+        line-height:0px;
+        box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.52);
+
+        img {
+          filter: brightness(50%);
+        }
+      }
+    }
+
     .blog-container-content{
       width:100%;
     }

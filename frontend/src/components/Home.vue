@@ -1,26 +1,34 @@
 <template>
-  <div class="home">
-    <div class="home-container">
-      <div>
-        <img class="img-logo"
-             src="https://avatars1.githubusercontent.com/u/43185161?s=400&u=0f077352dbc68985059720a9bd2f36f936b847af&v=4">
-      </div>
-      <div class="title-container">
-        <div class="title-principal">
-          <div class="title-principal-first">Wootlab</div>
-          <div class="title-principal-secondary">Blog - Projects - Tools</div>
+  <div>
+    <div class="home">
+    </div>
+    <div class="home-2">
+      <div class="home-container">
+        <div>
+          <img class="img-logo"
+               src="https://avatars1.githubusercontent.com/u/43185161?s=400&u=0f077352dbc68985059720a9bd2f36f936b847af&v=4">
         </div>
-        <div class="title-description">A random passionate developer's place</div>
-        <div class="btns-list-container">
+        <div class="title-container">
+          <div class="title-principal">
+            <div class="title-principal-first">Wootlab</div>
+            <div class="title-principal-secondary">Blog - Projects - Tools</div>
+          </div>
+          <div class="title-description">Hello, I'm Jeremy.</div>
+          <div class="title-description">I'm a pasionate developer for <a href="https://www.zenika.com">Zenika</a>.</div>
+          <div class="btns-list-container">
+          </div>
         </div>
       </div>
     </div>
+    <SocialNetworkLink :is-floating="true"/>
   </div>
 </template>
 
 <script>
+import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 export default {
   name: 'home',
+  components: { SocialNetworkLink },
   mounted () {
     this.$store.state.toggleOffNavbar = false
   },
@@ -40,19 +48,19 @@ export default {
   .home-container {
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.3;
     display: flex;
     margin: 4rem 0px 2rem;
   }
 
   .img-logo {
     border-radius: 50%;
-    height: 220px;
+    height: 225px;
     border:3px solid white;
   }
 
-  .home {
-    position: relative;
+  .home, .home-2 {
+    position: absolute;
     width: 100%;
     display: flex;
     -moz-box-pack: center;
@@ -60,12 +68,16 @@ export default {
     -moz-box-align: center;
     align-items: center;
     overflow: hidden;
+    min-height: 100vh;
+    font-family: "Arvo", sans-serif;
+  }
+
+  .home{
     background-color:rgba(0, 0, 0, 1);
     background-image: url("../assets/space-min.jpg");
     background-position: center;
     background-size: 100%;
-    min-height: 100vh;
-    font-family: "Arvo", sans-serif;
+    filter: brightness(50%);
   }
 
   .home-btns {
@@ -148,6 +160,15 @@ export default {
 
   .title-container {
     text-align: left;
+  }
+
+  .home-credit{
+    position:absolute;
+    bottom: 10px;
+    color:white;
+    font-size:0.8rem;
+    width:100%;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
