@@ -5,11 +5,14 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 import io.wootlab.data.model.Article;
+import io.wootlab.data.model.SearchArticleResult;
+import io.wootlab.data.model.Tag;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Controller
@@ -26,12 +29,13 @@ public class Endpoints {
     }
 
     @Get("/articles")
-    public HttpResponse<List<Article>> findArticlesByTag(@Nullable @QueryValue(value = "tag") String tag) throws IOException, ExecutionException, InterruptedException {
+    public HttpResponse<SearchArticleResult> findArticles(@Nullable @QueryValue(value = "tag") String tag, @Nullable @QueryValue(value = "page") Integer page) {
         return
-                HttpResponse.ok(
-                        tag != null ?
-                            articlesService.findArticlesByTag(tag) :
-                                articlesService.findArticles()
-                );
+                HttpResponse.ok(articlesService.findArticles(Optional.ofNullable(page), Optional.ofNullable(tag)));
+    }
+
+    @Get("/tags")
+    public HttpResponse<List<Tag>> findTags(){
+        return HttpResponse.ok(articlesService.findTags());
     }
 }

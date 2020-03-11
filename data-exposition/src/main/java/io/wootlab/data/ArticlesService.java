@@ -1,17 +1,23 @@
 package io.wootlab.data;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import io.wootlab.data.model.Article;
 import io.wootlab.data.model.ArticleContent;
+import io.wootlab.data.model.SearchArticleResult;
+import io.wootlab.data.model.Tag;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Singleton
 public class ArticlesService {
@@ -51,22 +57,31 @@ public class ArticlesService {
         return Optional.empty();
     }
 
-    public List<Article> findArticlesByTag(String tag) {
-        var result = new ArrayList<Article>();
+    public SearchArticleResult findArticles(Optional<Integer> page, Optional<String> tag) {
+        var result = new SearchArticleResult();
 
-        var query = db.getFirestore().collection("article").whereEqualTo("tag", tag);
+        int startIndex = page.isPresent() && page.get() > 0 ? (page.get()-1) * 8 : 0;
+
+        var query = db.getFirestore().collection("article").whereEqualTo("published", true).orderBy("date", Query.Direction.DESCENDING);
 
         ApiFuture<QuerySnapshot> future = query.get();
 
         try {
             QuerySnapshot queryResult = future.get();
             if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
-                for (QueryDocumentSnapshot queryDocument : queryResult.getDocuments()) {
-                    var article = queryDocument.toObject(Article.class);
-                    if (article.isPublished()) {
-                        result.add(article);
-                    }
+                var documents = queryResult.getDocuments();
+                if(tag.isPresent()){
+                    documents = documents.stream().filter(doc -> doc.get("tag").equals(tag.get())).collect(Collectors.toList());
                 }
+                result.setTotalPages((documents.size() / 8) + ((documents.size() % 8) > 0 ? 1 : 0));
+                final int documentsSize = documents.size();
+                var validIndexes = IntStream.range(startIndex, startIndex + 8).filter(index -> index < documentsSize).boxed().collect(Collectors.toList());
+
+                for(int index : validIndexes){
+                    result.getArticles().add(documents.get(index).toObject(Article.class));
+                }
+            }else{
+                result.setTotalPages(0);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -74,23 +89,23 @@ public class ArticlesService {
         return result;
     }
 
-    public List<Article> findArticles() {
-        var result = new ArrayList<Article>();
-
-        var query = db.getFirestore().collection("article").whereEqualTo("published", true).limit(10);
-
-        ApiFuture<QuerySnapshot> future = query.get();
-
+    public List<Tag> findTags() {
+        ApiFuture<QuerySnapshot> future = db.getFirestore().collection("article").whereEqualTo("published", true).get();
+        QuerySnapshot queryResult = null;
         try {
-            QuerySnapshot queryResult = future.get();
+            queryResult = future.get();
             if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
-                for (QueryDocumentSnapshot queryDocument : queryResult.getDocuments()) {
-                    result.add(queryDocument.toObject(Article.class));
-                }
+                return queryResult.getDocuments().stream()
+                        .collect(Collectors.groupingBy(e -> e.get("tag").toString()))
+                        .entrySet().stream()
+                        .map(entry -> new Tag(entry.getKey(), entry.getValue().size()))
+                        .filter(tag -> !tag.getTag().isEmpty())
+                        .collect(Collectors.toList());
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return result;
+
+        return Collections.emptyList();
     }
 }

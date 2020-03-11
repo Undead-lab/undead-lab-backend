@@ -139,7 +139,9 @@ export default {
   }
 
   .blog-image {
-    width:100%;
+    img{
+      width:100%;
+    }
     line-height:0px;
   }
 
