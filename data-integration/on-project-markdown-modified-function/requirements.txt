@@ -1,0 +1,6 @@
+requests
+markdown2
+grpcio
+google-cloud-core
+google-cloud-firestore
+pygments
