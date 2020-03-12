@@ -3,6 +3,7 @@ from google.cloud import firestore
 import base64
 import json
 import os
+import datetime
 
 def from_github_to_firestore(event, context):
     path = base64.b64decode(event['data']).decode("utf-8")
@@ -36,9 +37,10 @@ def push_to_firestore(name, meta):
         u'images': meta['images'],
         u'tag': meta['tag'],
         u'date': meta['date'],
+        u'updateDate': now.strftime("%Y-%m-%d"),
         u'author': meta['author'],
         u'published': meta['published'],
         u'path': path
     }
-    db.collection(u'article').document(path).set(data)
+    db.collection(u'articles').document(path).set(data)
     return True

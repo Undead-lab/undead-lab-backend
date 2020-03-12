@@ -6,7 +6,8 @@ on:
       - dev
       - master
     paths:
-      - 'data-integration/on-markdown-modified-function/**'
+      - 'data-integration/on-article-markdown-modified-function/**'
+      - '.github/workflows/article-markdown-modified-gfunction.yml'
 
 jobs:
   deploy-to-google-cloud-function:
@@ -27,7 +28,7 @@ jobs:
           gcloud beta functions deploy ${{secrets.GOOGLE_ON_MARKDOWN_MODIFIED_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
-            --source data-integration/on-markdown-modified-function \
+            --source data-integration/on-article-markdown-modified-function \
             --memory 128MB \
             --allow-unauthenticated \
             --entry-point from_github_to_firestore \
@@ -43,7 +44,7 @@ jobs:
           gcloud beta functions deploy ${{secrets.GOOGLE_ON_MARKDOWN_MODIFIED_FUNCTION_NAME}} \
             --region ${{secrets.GOOGLE_FUNCTIONS_REGION}} \
             --runtime python37 \
-            --source data-integration/on-markdown-modified-function \
+            --source data-integration/on-article-markdown-modified-function \
             --memory 128MB \
             --allow-unauthenticated \
             --entry-point from_github_to_firestore \

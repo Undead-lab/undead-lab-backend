@@ -7,6 +7,7 @@ on:
       - master
     paths:
       - 'data-exposition/**'
+      - '.github/workflows/data-exposition.yml'
 
 jobs:
   build-and-deploy-data-exposition:

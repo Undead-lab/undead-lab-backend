@@ -1,17 +1,17 @@
 package io.wootlab.data;
 
-import com.google.api.core.ApiFuture;
+import com.google.cloud.Tuple;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
 import io.wootlab.data.model.Article;
 import io.wootlab.data.model.ArticleContent;
 import io.wootlab.data.model.SearchArticleResult;
 import io.wootlab.data.model.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,55 +21,58 @@ import java.util.stream.IntStream;
 
 @Singleton
 public class ArticlesService {
+    private static final String ARTICLES_COLLECTION = "articles";
+    private static final String ARTICLES_HTML_COLLECTION = "articlesHtmlContent";
+    private static final Logger log = LoggerFactory.getLogger(ArticlesService.class);
+
     @Inject
     FirestoreClient db;
 
     public Optional<Article> findArticleByUrl(String url) {
-        ApiFuture<QuerySnapshot> future = db.getFirestore().collection("article").whereEqualTo("url", url).get();
         try {
-            QuerySnapshot query = future.get();
-            if (query.getDocuments() != null && query.getDocuments().size() > 0) {
-                var documents = query.getDocuments();
+            var documents = queryFirestore(ARTICLES_COLLECTION, Optional.of(Tuple.of("url", url)), Optional.empty());
+            if (documents != null && documents.size() > 0) {
                 var document = documents.get(0);
+                if (documents.size() > 1){
+                    log.warn("More than 1 article found for this url : {}, returning the first result...", url);
+                }
+                if (!document.get("published", Boolean.class)){
+                    return Optional.empty();
+                }
                 var article = document.toObject(Article.class);
                 article.setContent(findContentByPath(article.getPath()));
                 return Optional.of(article);
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error(String.format("Error while searching / converting article url : {}", url), e);
         }
         return Optional.empty();
     }
 
     private Optional<String> findContentByPath(String path) {
-        ApiFuture<QuerySnapshot> future = db.getFirestore().collection("htmlContent").whereEqualTo("path", path).get();
         try {
-            QuerySnapshot query = future.get();
-            if (query.getDocuments() != null && query.getDocuments().size() > 0) {
-                var documents = query.getDocuments();
+            var documents = queryFirestore(ARTICLES_HTML_COLLECTION, Optional.of(Tuple.of("path", path)), Optional.empty());
+            if (documents != null && documents.size() > 0) {
+                if (documents.size() > 1){
+                    log.warn("More than 1 article html content found for this path : {}, returning the first result...", path);
+                }
                 var document = documents.get(0);
                 var content = document.toObject(ArticleContent.class);
                 return Optional.of(content.getContent());
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error(String.format("Error while searching article html content for path : {}", path), e);
         }
         return Optional.empty();
     }
 
     public SearchArticleResult findArticles(Optional<Integer> page, Optional<String> tag) {
         var result = new SearchArticleResult();
-
-        int startIndex = page.isPresent() && page.get() > 0 ? (page.get()-1) * 8 : 0;
-
-        var query = db.getFirestore().collection("article").whereEqualTo("published", true).orderBy("date", Query.Direction.DESCENDING);
-
-        ApiFuture<QuerySnapshot> future = query.get();
+        int startIndex = computeStartIndex(page);
 
         try {
-            QuerySnapshot queryResult = future.get();
-            if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
-                var documents = queryResult.getDocuments();
+            var documents = queryFirestore(ARTICLES_COLLECTION, Optional.of(Tuple.of("published", true)),  Optional.of(Tuple.of("date",  Query.Direction.DESCENDING)));
+            if (documents != null && documents.size() > 0) {
                 if(tag.isPresent()){
                     documents = documents.stream().filter(doc -> doc.get("tag").equals(tag.get())).collect(Collectors.toList());
                 }
@@ -84,18 +87,16 @@ public class ArticlesService {
                 result.setTotalPages(0);
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error(String.format("Error while searching articles with filters : page:{}, tag:{}", page, tag), e);
         }
         return result;
     }
 
     public List<Tag> findTags() {
-        ApiFuture<QuerySnapshot> future = db.getFirestore().collection("article").whereEqualTo("published", true).get();
-        QuerySnapshot queryResult = null;
         try {
-            queryResult = future.get();
-            if (queryResult.getDocuments() != null && queryResult.getDocuments().size() > 0) {
-                return queryResult.getDocuments().stream()
+            var documents = queryFirestore(ARTICLES_COLLECTION, Optional.of(Tuple.of("published", true)), Optional.empty());
+            if (documents != null && documents.size() > 0) {
+                return documents.stream()
                         .collect(Collectors.groupingBy(e -> e.get("tag").toString()))
                         .entrySet().stream()
                         .map(entry -> new Tag(entry.getKey(), entry.getValue().size()))
@@ -103,9 +104,27 @@ public class ArticlesService {
                         .collect(Collectors.toList());
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log.error("Error while getting tags", e);
+        }
+        return Collections.emptyList();
+    }
+
+    private  List<QueryDocumentSnapshot>  queryFirestore(String collection, Optional<Tuple<String, Object>> optWhereEqual, Optional<Tuple<String, Query.Direction>> optOrderBy) throws ExecutionException, InterruptedException {
+        var request = db.getFirestore().collection(collection);
+        if(optWhereEqual.isPresent()){
+            var whereEqual = optWhereEqual.get();
+            request.whereEqualTo(whereEqual.x(), whereEqual.y());
         }
 
-        return Collections.emptyList();
+        if(optOrderBy.isPresent()){
+            var orderBy = optOrderBy.get();
+            request.orderBy(orderBy.x(), orderBy.y());
+        }
+
+        return request.get().get().getDocuments();
+    }
+
+    private int computeStartIndex(Optional<Integer> page) {
+        return page.isPresent() && page.get() > 0 ? (page.get()-1) * 8 : 0;
     }
 }

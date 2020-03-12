@@ -30,5 +30,5 @@ def push_to_firestore(name, html):
         u'path': path,
         u'content': html
     }
-    db.collection(u'htmlContent').document(path).set(data)
+    db.collection(u'articlesHtmlContent').document(path).set(data)
     return True

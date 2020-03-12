@@ -7,6 +7,7 @@ on:
       - master
     paths:
       - 'data-integration/on-project-meta-modified-function/**'
+      - '.github/workflows/project-meta-modified-gfunction.yml'
 
 jobs:
   deploy-to-google-cloud-function:
