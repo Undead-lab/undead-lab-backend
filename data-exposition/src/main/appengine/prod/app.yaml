@@ -1,5 +1,5 @@
 runtime: java11
-entrypoint: java -Xmx64m -jar data-1.0.SNAPSHOT.jar
+entrypoint: java -Xmx64m -jar data-exposition-1.0.SNAPSHOT.jar
 handlers:
   - url: /.*
     script: this field is required, but ignored

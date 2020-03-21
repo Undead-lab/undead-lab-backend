@@ -1,0 +1,14 @@
+name: Ping GCP Prod
+
+on:
+  schedule:
+    - cron:  '*/4 * * * *'
+
+jobs:
+  build-and-deploy-frontend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Ping GCP
+      run: curl https://wootlab-io-production.appspot.com/tags

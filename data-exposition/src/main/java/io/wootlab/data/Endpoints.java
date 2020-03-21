@@ -38,4 +38,9 @@ public class Endpoints {
     public HttpResponse<List<Tag>> findTags(){
         return HttpResponse.ok(articlesService.findTags());
     }
+
+    @Get("/ping")
+    public HttpResponse<String> ping(){
+        return HttpResponse.ok("ok");
+    }
 }
