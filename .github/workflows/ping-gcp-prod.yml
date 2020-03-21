@@ -1,11 +1,11 @@
-name: Ping GCP Prod
+name: Ping GCP Prod 2
 
 on:
   schedule:
-    - cron:  '*/4 * * * *'
+    - cron:  '*/5 * * * *'
 
 jobs:
-  build-and-deploy-frontend:
+  ping-gcp-job:
 
     runs-on: ubuntu-latest
 
