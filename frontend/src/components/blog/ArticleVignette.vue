@@ -16,10 +16,11 @@
 
         <div class="content">
           {{article.description}}
-          <br><br>
-          <time datetime="2016-1-1">{{article.date}}</time>
         </div>
       </div>
+       <footer class="card-footer">
+         <time datetime="2016-1-1">{{article.date}}</time>
+       </footer>
     </div>
   </router-link>
 </template>
@@ -32,6 +33,12 @@ export default {
 </script>
 
 <style scoped>
+
+.card-footer{
+  margin-top: auto;
+  padding:1.5em;
+  border-top:0px;
+}
 
   .article-miniature:hover{
     cursor:pointer;
@@ -73,5 +80,11 @@ export default {
 
   .column{
     padding: .75rem;
+  }
+
+  .card{
+    height:100%;
+    display: flex;
+    flex-direction: column;
   }
 </style>
