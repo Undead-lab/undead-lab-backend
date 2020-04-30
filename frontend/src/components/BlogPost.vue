@@ -23,6 +23,21 @@
         </div>
         <div class="post-content content is-medium" v-html="article.content">
         </div>
+        <div class="post-content" v-if="shouldDisplayNext() || shouldDisplayPrevious()">
+          <div class="with-separator">
+          </div>
+        </div>
+        <nav class="pagination post-content reduced-margin-top" role="navigation" aria-label="next-and-previous-article"
+             v-if="shouldDisplayNext() || shouldDisplayPrevious()"
+        >
+          <router-link class="rightauto" v-if="shouldDisplayPrevious()" :to="'/blog/' + article.previous">
+            <b>Previous:</b> {{article.previousTitle}}
+          </router-link>
+
+          <router-link  class='leftauto' v-if="shouldDisplayNext()" :to="'/blog/' + article.next">
+            <b>Next:</b> {{article.nextTitle}}
+          </router-link>
+        </nav>
         <AboutTheAuthor/>
       </div>
       <div class="footer-container">
@@ -59,6 +74,12 @@ export default {
     imagesLoaded
   },
   methods: {
+    shouldDisplayPrevious () {
+      return this.article.previous && this.article.previous !== '' && this.article.previousTitle && this.article.previousTitle !== ''
+    },
+    shouldDisplayNext () {
+      return this.article.next && this.article.next !== '' && this.article.nextTitle && this.article.nextTitle !== ''
+    },
     loaded (instance, image) {
       if (image.img.src !== '') {
         setTimeout(() => {
@@ -82,13 +103,35 @@ export default {
         }, 50)
       }
     },
+    loadNextPrevious () {
+      if (this.article.next) {
+        axios
+          .get(process.env.VUE_APP_BACKEND_URL + '/articles/' + this.article.next + '/title')
+          .then(response => {
+            this.$set(this.article, 'nextTitle', response.data)
+          })
+      }
+      if (this.article.previous) {
+        axios
+          .get(process.env.VUE_APP_BACKEND_URL + '/articles/' + this.article.previous + '/title')
+          .then(response => {
+            this.$set(this.article, 'previousTitle', response.data)
+          })
+      }
+      this.loading = false
+    },
     loadArticle () {
       axios
         .get(process.env.VUE_APP_BACKEND_URL + '/articles/' + this.$route.params.path)
         .then(response => {
           if (response.status === 200 && response.data !== '') {
+            this.$set(this.article, '', response.data)
             this.article = response.data
-            this.loading = false
+            if (response.data.next || response.data.previous) {
+              this.loadNextPrevious()
+            } else {
+              this.loading = false
+            }
           }
         }
         ).catch(e => {
@@ -104,6 +147,11 @@ export default {
   beforeMount () {
     this.$store.state.toggleOffNavbar = true
     this.loadArticle()
+  },
+  watch: {
+    '$route.params.path' (val) {
+      this.loadArticle()
+    }
   },
   metaInfo () {
     return {
@@ -132,6 +180,18 @@ export default {
 
   .post-title-mobile{
     display:none;
+  }
+
+  .reduced-margin-top{
+    margin-top: 20px !important;
+  }
+
+  .leftauto{
+    margin-left: auto;
+  }
+
+  .rightauto{
+    margin-right: auto;
   }
 
   .comment-content{
@@ -197,6 +257,12 @@ export default {
          }
        }
      }
+  }
+
+  .with-separator {
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width:100%;
   }
 
   @media (max-width: 1024px) {
