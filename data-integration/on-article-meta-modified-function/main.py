@@ -29,6 +29,15 @@ def convert_to_json(json64):
 def push_to_firestore(name, meta):
     db = firestore.Client()
     path = name.replace("/", "-").replace("-meta.json", "")
+
+    next = ""
+    if 'next' in meta:
+        next = meta['next']
+
+    previous = ""
+    if 'previous' in meta:
+        previous = meta['previous']
+
     data = {
         u'title': meta['title'],
         u'description': meta['description'],
@@ -38,7 +47,9 @@ def push_to_firestore(name, meta):
         u'date': meta['date'],
         u'author': meta['author'],
         u'published': meta['published'],
-        u'path': path
+        u'path': path,
+        u'next': next,
+        u'previous': previous
     }
     db.collection(u'article').document(path).set(data)
     return True

@@ -28,6 +28,14 @@ public class Endpoints {
                 .orElse(HttpResponse.notFound());
     }
 
+    @Get("/articles/{url}/title")
+    public HttpResponse<String> findArticles(String url) {
+        return
+                articlesService.findArticleTitleByUrl(url)
+                        .map(content -> HttpResponse.ok(content))
+                        .orElse(HttpResponse.notFound());
+    }
+
     @Get("/articles")
     public HttpResponse<SearchArticleResult> findArticles(@Nullable @QueryValue(value = "tag") String tag, @Nullable @QueryValue(value = "page") Integer page) {
         return

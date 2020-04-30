@@ -41,6 +41,22 @@ public class ArticlesService {
         return Optional.empty();
     }
 
+    public Optional<String> findArticleTitleByUrl(String url) {
+        ApiFuture<QuerySnapshot> future = db.getFirestore().collection("article").whereEqualTo("url", url).get();
+        try {
+            QuerySnapshot query = future.get();
+            if (query.getDocuments() != null && query.getDocuments().size() > 0) {
+                var documents = query.getDocuments();
+                var document = documents.get(0);
+                var article = document.toObject(Article.class);
+                return Optional.of(article.getTitle());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
     private Optional<String> findContentByPath(String path) {
         ApiFuture<QuerySnapshot> future = db.getFirestore().collection("htmlContent").whereEqualTo("path", path).get();
         try {

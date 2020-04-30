@@ -12,6 +12,8 @@ public class Article {
     private boolean published;
     private Images images;
     private String path;
+    private String next;
+    private String previous;
     private String content;
 
     public void setTitle(String title) {
@@ -48,6 +50,14 @@ public class Article {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
+    }
+
+    public void setPrevious(String previous) {
+        this.previous = previous;
     }
 
     public void setContent(Optional<String> optionalContent){
@@ -92,5 +102,13 @@ public class Article {
 
     public boolean isPublished() {
         return published;
+    }
+
+    public String getNext() {
+        return next;
+    }
+
+    public String getPrevious() {
+        return previous;
     }
 }
