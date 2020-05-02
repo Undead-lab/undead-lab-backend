@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../components/Home.vue'
-import Blog from '../components/Blog.vue'
-import BlogPost from '../components/BlogPost.vue'
+import HomePageView from '../views/HomePageView.vue'
+import BlogSummaryView from '../views/BlogSummaryView.vue'
+import BlogPostView from '../views/BlogPostView.vue'
 import NotFound from '../components/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -13,17 +13,17 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: HomePageView
   },
   {
     path: '/blog',
     name: 'blog',
-    component: Blog
+    component: BlogSummaryView
   },
   {
     path: '/blog/:path',
     name: 'blogPost',
-    component: BlogPost
+    component: BlogPostView
   }
 ]
 
