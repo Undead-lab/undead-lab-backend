@@ -104,7 +104,7 @@ export default {
       axios
         .get(process.env.VUE_APP_BACKEND_URL + '/tags')
         .then(response => {
-          this.tagList = response.data
+          this.tagList = response.data.sort((a, b) => a.tag.localeCompare(b.tag))
         }).catch(error => console.error(error))
     },
     searchArticles () {
