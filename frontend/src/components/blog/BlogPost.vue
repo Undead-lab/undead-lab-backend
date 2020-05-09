@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-if="loading || !mainImageLoaded" :text="''"/>
+    <Loader v-if="loading || !mainImageLoaded" :text="''" :fullPage="true"/>
     <div class="blog-container" :class="{'displayNone': loading || !mainImageLoaded }">
       <div v-images-loaded:on.progress="loaded" class="blog-image">
         <img :src="article.images.highResolutionUrl"/>
@@ -39,6 +39,9 @@
           </router-link>
         </nav>
         <AboutTheAuthor/>
+        <div class="post-content">
+          <CommentContainer :comments="article.comments" :url="$route.params.path" v-on:reloadComments="reloadComments"/>
+        </div>
       </div>
       <div class="footer-container">
         <div class="footer-content">
@@ -55,11 +58,11 @@ import SocialNetworkLink from '@/components/common/SocialNetworkLink'
 import AboutTheAuthor from '@/components/common/AboutTheAuthor'
 import Loader from '@/components/common/Loader'
 import imagesLoaded from 'vue-images-loaded'
-import { mapGetters } from 'vuex'
+import CommentContainer from '@/components/blog/comments/CommentContainer'
 
 export default {
   name: 'BlogPost',
-  components: { Loader, SocialNetworkLink, AboutTheAuthor },
+  components: { CommentContainer, Loader, SocialNetworkLink, AboutTheAuthor },
   data () {
     return {
       'article': {
@@ -72,6 +75,11 @@ export default {
   },
   directives: {
     imagesLoaded
+  },
+  computed: {
+    authenticated () {
+      return this.$store.getters.authenticated
+    }
   },
   methods: {
     shouldDisplayPrevious () {
@@ -142,6 +150,18 @@ export default {
             window.location.href = '/404'
           }
         })
+    },
+    reloadComments () {
+      axios
+        .get(process.env.VUE_APP_BACKEND_URL + '/articles/' + this.$route.params.path + '/comments')
+        .then(response => {
+          if (response.status === 200 && response.data !== '') {
+            this.$set(this.article, 'comments', response.data)
+          }
+        }
+        ).catch(e => {
+          console.log(e)
+        })
     }
   },
   beforeMount () {
@@ -149,6 +169,7 @@ export default {
     this.loadArticle()
   },
   watch: {
+    authenticated () { },
     '$route.params.path' (val) {
       this.loadArticle()
     }
@@ -194,7 +215,7 @@ export default {
     margin-right: auto;
   }
 
-  .comment-content{
+  .commentDraft-content{
     padding:40px;
   }
 
@@ -203,6 +224,7 @@ export default {
       width:100%;
     }
     line-height:0px;
+    z-index:10;
   }
 
   .footer-content{

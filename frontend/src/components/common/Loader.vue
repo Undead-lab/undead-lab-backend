@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-page">
+  <div class="loader-page" :class="{'full-page': fullPage}">
     <div class="has-text-centered">
       <div class="loader-spinner">
         <div class="loader-spinner-animated">
@@ -21,7 +21,7 @@
 <script>
 export default {
   name: 'Loader',
-  props: ['text']
+  props: ['text', 'fullPage']
 }
 </script>
 
@@ -45,8 +45,11 @@ export default {
     overflow: hidden;
     background-position: center;
     background-size: 100%;
-    min-height: 100vh;
     font-family: "Arvo", sans-serif;
+  }
+
+  .full-page {
+    min-height: 100vh;
   }
 
   .loader-spinner-animated div {

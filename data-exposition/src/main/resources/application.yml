@@ -4,3 +4,29 @@ micronaut:
   server:
     cors:
       enabled: true
+  security:
+    enabled: true
+    intercept-url-map:
+      - pattern: /articles/**
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: /articles
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: /articles/**/comments
+        http-method: PUT
+        access:
+          - isAuthenticated()
+      - pattern: /articles/comments/**
+        http-method: DELETE
+        access:
+          - isAuthenticated()
+      - pattern: /connected
+        http-method: GET
+        access:
+          - isAuthenticated()
+    token:
+      jwt:
+        enabled: true

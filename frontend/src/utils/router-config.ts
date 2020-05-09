@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomePageView from '../views/HomePageView.vue'
 import BlogSummaryView from '../views/BlogSummaryView.vue'
 import BlogPostView from '../views/BlogPostView.vue'
-import NotFound from '../components/NotFound.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
