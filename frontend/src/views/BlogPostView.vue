@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BlogPost from '../components/BlogPost'
+import BlogPost from '../components/blog/BlogPost'
 export default {
   name: 'BlogPostView',
   components: { BlogPost }

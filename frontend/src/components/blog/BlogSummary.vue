@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-if="loading || !allImagesLoaded" :text="''"/>
+    <Loader v-if="loading || !allImagesLoaded" :text="''" :fullPage="true"/>
     <div :class="{'displayNone': !allImagesLoaded }" class="blog-container">
       <div class="columns list-articles">
         <div class="column is-two-thirds">
@@ -83,7 +83,6 @@ export default {
   },
   methods: {
     shouldBeDisplayed (tag) {
-      console.log()
       return this.tagListSearch === '' || tag.includes(this.tagListSearch)
     },
     disableNextPage () {
@@ -102,7 +101,7 @@ export default {
     },
     searchTags () {
       axios
-        .get(process.env.VUE_APP_BACKEND_URL + '/tags')
+        .get(process.env.VUE_APP_BACKEND_URL + '/articles/tags')
         .then(response => {
           this.tagList = response.data.sort((a, b) => a.tag.localeCompare(b.tag))
         }).catch(error => console.error(error))

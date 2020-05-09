@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BlogSummary from '@/components/BlogSummary'
+import BlogSummary from '@/components/blog/BlogSummary'
 
 export default {
   name: 'BlogSummaryView',

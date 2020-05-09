@@ -1,4 +1,4 @@
-package io.wootlab.data.model;
+package io.wootlab.data.article.model;
 
 import java.util.Optional;
 
@@ -15,6 +15,24 @@ public class Article {
     private String next;
     private String previous;
     private String content;
+
+    public Article() {
+    }
+
+    public Article(String title, String description, String url, String tag, String date, String author, boolean published, Images images, String path, String next, String previous, String content) {
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.tag = tag;
+        this.date = date;
+        this.author = author;
+        this.published = published;
+        this.images = images;
+        this.path = path;
+        this.next = next;
+        this.previous = previous;
+        this.content = content;
+    }
 
     public void setTitle(String title) {
         this.title = title;

@@ -20,6 +20,7 @@ jobs:
       run: |
         cd data-exposition
         echo '${{ secrets.GOOGLE_CREDENTIALS_DATA_EXPOSITION_DEV }}' > src/main/resources/google-credentials.json
+        echo '${{ secrets.FIREBASE_CREDENTIALS_DATA_EXPOSITION_DEV }}' > src/main/resources/firebase-service-account.json
         echo '${{ secrets.GOOGLE_CREDENTIALS_CONTINUOUS_DELIVERY_DEV }}' > google-key.json
         gcloud auth activate-service-account --key-file=./google-key.json
         gcloud config set project ${{secrets.GOOGLE_PROJECT_DEV_ID}}
@@ -28,6 +29,7 @@ jobs:
       run: |
         cd data-exposition
         echo '${{ secrets.GOOGLE_CREDENTIALS_DATA_EXPOSITION_PROD }}' > src/main/resources/google-credentials.json
+        echo '${{ secrets.FIREBASE_CREDENTIALS_DATA_EXPOSITION_PROD }}' > src/main/resources/firebase-service-account.json
         echo '${{ secrets.GOOGLE_CREDENTIALS_CONTINUOUS_DELIVERY_PROD }}' > google-key.json
         gcloud auth activate-service-account --key-file=./google-key.json
         gcloud config set project ${{secrets.GOOGLE_PROJECT_PROD_ID}}

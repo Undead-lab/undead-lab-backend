@@ -1,18 +1,12 @@
-package io.wootlab.data;
+package io.wootlab.data.article;
 
-import com.google.api.core.ApiFuture;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
-import io.wootlab.data.model.Article;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Singleton
 public class FirestoreClient {
@@ -32,6 +26,4 @@ public class FirestoreClient {
                                 .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                                 .build());
     }
-
-
 }

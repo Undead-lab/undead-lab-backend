@@ -1,4 +1,4 @@
-package io.wootlab.data.model;
+package io.wootlab.data.article.model;
 
 public class Images {
     private String miniatureUrl;

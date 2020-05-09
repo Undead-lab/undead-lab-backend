@@ -1,13 +1,15 @@
-package io.wootlab.data.model;
+package io.wootlab.data.article.representation;
+
+import io.wootlab.data.article.model.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchArticleResult {
+public class SearchArticleResultRepresentation {
     private int totalPages;
     private List<Article> articles;
 
-    public SearchArticleResult() {
+    public SearchArticleResultRepresentation() {
         articles = new ArrayList<>();
     }
 

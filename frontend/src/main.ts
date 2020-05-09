@@ -27,5 +27,8 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 new Vue({
   router,
   store,
+  mounted () {
+    this.$store.commit('init')
+  },
   render: h => h(App)
 }).$mount('#app')
