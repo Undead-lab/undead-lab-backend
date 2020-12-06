@@ -412,6 +412,7 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
     text-align: justify;
+    display:none;
   }
 
   .share-content{
